@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Portfolio | Shihan Corrine Zhang</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Research Archive Layout */
+        .research-section-title {
+            font-family: Georgia, serif;
+            font-size: 1.8rem;
+            color: #111111;
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 0.5rem;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .research-card {
+            max-width: 850px;
+            margin: 0 auto 4rem auto;
+            background-color: #ffffff;
+            border: 1px solid #eaeaea;
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .research-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.03);
+        }
+
+        /* Domain Tags */
+        .tag-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .research-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background-color: #f5f5f5;
+            color: #666666;
+            padding: 0.35rem 0.75rem;
+            border-radius: 2px;
+        }
+
+        /* Typography */
+        .citation-line {
+            font-size: 1.15rem;
+            line-height: 1.5;
+            color: #111111;
+            margin-bottom: 1.5rem;
+        }
+
+        .citation-line em {
+            font-family: Georgia, serif;
+        }
+
+        .abstract-block {
+            border-left: 3px solid #eeeeee;
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .abstract-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #888888;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .abstract-text {
+            font-size: 0.98rem;
+            line-height: 1.65;
+            color: #444444;
+            text-align: justify;
+        }
+
+        /* Action Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .research-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #111111;
+        }
+
+        .btn-primary {
+            background-color: #111111;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #444444;
+            border-color: #444444;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #111111;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f9f9f9;
+        }
+
+        @media (max-width: 768px) {
+            .research-card { padding: 1.5rem; }
+            .button-group { flex-direction: column; }
+            .abstract-text { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section" style="min-height: auto; padding-bottom: 3rem;">
+        <nav>
+            <h1 class="site-title"><a href="index.html" style="color: white; text-decoration: none;">Shihan "Corrine" Zhang</a></h1>
+            <div class="nav-links">
+                <a href="gallery.html">The Gallery</a>
+                <a href="research.html">Research</a>
+                <a href="film-writing.html">Film & Writing</a>
+                <a href="praxis.html">PRAXIS</a>
+                <a href="forums.html">Forums</a>
+                <a href="recognitions.html">Recognitions</a>
+            </div>
+        </nav>
+    </section>
+
+    <section class="content-section" style="padding-top: 1rem;">
+        <h2 class="section-label" style="max-width: 850px; margin: 0 auto 2rem auto;">Academic Inquiries & Abstracts</h2>
+
+        <h3 class="research-section-title">Peer-Reviewed Publications</h3>
+
+        <div class="research-card">
+            <div class="tag-container">
+                <span class="research-tag">Solar Engineering</span>
+                <span class="research-tag">Thermal Dynamics</span>
+            </div>
+            <div class="citation-line">
+                <strong>Zhang, S. C.</strong>, & Reynolds, M. T. (2026). "Optimizing Airflow Distribution Profiles Within Specialized Pentagonal Beehive Solar Thermal Matrices." <em>Journal of Renewable Atmospheric Systems</em>, 14(2), 112–128.
+            </div>
+            <div class="abstract-block">
+                <p class="abstract-label">Abstract</p>
+                <p class="abstract-text">
+                    This inquiry addresses ventilation efficiency limits found inside modular heating grids. By standardizing a highly replicable pentagonal assembly pattern, our physical simulations demonstrated a marked improvement in localized solar collection velocity. The resulting data points to a major structural alternative for balancing winter thermal collection profiles while limiting baseline structural installation overhead.
+                </p>
+            </div>
+            <div class="button-group">
+                <a href="assets/beehive-paper-final.pdf" class="research-btn btn-primary" target="_blank">Download Full Paper (PDF)</a>
+                <a href="https://doi.org/placeholder" class="research-btn btn-secondary" target="_blank">View Journal Index</a>
+            </div>
+        </div>
+
+        <div class="research-card">
+            <div class="tag-container">
+                <span class="research-tag">Hakka Material Culture</span>
+                <span class="research-tag">Domestic Labor Mapping</span>
+            </div>
+            <div class="citation-line">
+                <strong>Zhang, S. C.</strong> (2025). "The Geography of Silence: Spatial Layouts and Transgenerational Labor Erasure in Fujian Tulou Compounds." <em>International Review of Historical Sociology</em>, 29(4), 341–359.
+            </div>
+            <div class="abstract-block">
+                <p class="abstract-label">Abstract</p>
+                <p class="abstract-text">
+                    This study tracks how physical architectural design layouts quietly reinforce social expectations and divide domestic labor across generations inside standard Fujian Hakka circular compounds. Using spatial layout diagrams alongside historical interviews, this paper details the hidden daily operations maintained entirely by female family lines, framing their collective strategies as key actions of agency and community building.
+                </p>
+            </div>
+            <div class="button-group">
+                <a href="assets/fujian-paper-final.pdf" class="research-btn btn-primary" target="_blank">Download Full Paper (PDF)</a>
+                <a href="https://doi.org/placeholder" class="research-btn btn-secondary" target="_blank">View Journal Index</a>
+            </div>
+        </div>
+
+
+        <h3 class="research-section-title">Working Papers & Manuscripts</h3>
+
+        <div class="research-card">
+            <div class="tag-container">
+                <span class="research-tag">Ecological Modeling</span>
+                <span class="research-tag">Soil Architecture</span>
+            </div>
+            <div class="citation-line">
+                <strong>Zhang, S. C.</strong>, & Lee, K. Y. (Manuscript in Review). "Tracing Structural Longevity: Organic Material Dependencies and Topographical Soil Diagnostics in Coastal Eco-Systems."
+            </div>
+            <div class="abstract-block">
+                <p class="abstract-label">Abstract</p>
+                <p class="abstract-text">
+                    This paper investigates the immediate physical feedback loops running between natural vegetation systems and regional architectural preservation settings. Through data gathered in field samples across coastal regions, our analytics track how changing soil chemistry directly impacts foundation stability thresholds over extended periods.
+                </p>
+            </div>
+            <div class="button-group">
+                <a href="mailto:your-email@domain.com?subject=Inquiry regarding Coastal Eco Manuscript" class="research-btn btn-secondary">Request Manuscript Copy</a>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>
