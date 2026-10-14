@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forums & Symposia | Shihan Corrine Zhang</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Forum Layout Structures */
+        .forum-header-block {
+            max-width: 850px;
+            margin: 0 auto 3rem auto;
+        }
+
+        /* Photo Gateway Container with transparent image background */
+        .forum-event-photo-gateway {
+            position: relative;
+            max-width: 850px;
+            margin: 0 auto 4rem auto;
+            border-radius: 2px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .forum-event-photo-gateway:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Dark Translucent Overlay for UN Forum */
+        .marquee-forum-content {
+            background-color: rgba(17, 17, 17, 0.85);
+            color: #ffffff;
+            padding: 3.5rem;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Light Translucent Overlay for Academic Forums */
+        .standard-forum-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #111111;
+            padding: 2.5rem;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(234, 234, 234, 0.5);
+        }
+
+        .forum-event-photo-gateway:hover .marquee-forum-content {
+            background-color: rgba(17, 17, 17, 0.6);
+        }
+        
+        .forum-event-photo-gateway:hover .standard-forum-content {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Typography Styles */
+        .marquee-tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.7); margin-bottom: 1rem; display: inline-block; border-bottom: 1px solid rgba(68, 68, 68, 0.5); padding-bottom: 0.25rem; }
+        .marquee-title { font-family: Georgia, serif; font-size: 2.5rem; font-weight: 400; line-height: 1.2; margin-bottom: 0.5rem; }
+        .marquee-meta { font-size: 0.9rem; color: rgba(255, 255, 255, 0.6); letter-spacing: 0.05em; margin-bottom: 2rem; }
+        .marquee-delivery-box { border-top: 1px solid rgba(51, 51, 51, 0.5); padding-top: 2rem; }
+        .delivery-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.7); margin-bottom: 0.75rem; font-weight: 600; }
+        .marquee-text { font-size: 1.1rem; line-height: 1.7; color: rgba(229, 229, 229, 0.95); text-align: justify; }
+
+        .standard-forum-stream { display: flex; flex-direction: column; max-width: 850px; margin: 0 auto; }
+        .standard-forum-card { margin-bottom: 3rem; }
+        
+        .forum-title { font-family: Georgia, serif; font-size: 1.75rem; color: #111111; margin-bottom: 0.25rem; font-weight: 400; }
+        .forum-meta { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888888; margin-bottom: 1.5rem; }
+        .forum-text { font-size: 1.02rem; line-height: 1.65; color: #444444; text-align: justify; }
+
+        .zoom-photo-signal {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        
+        .standard-forum-content .zoom-photo-signal {
+            color: rgba(17, 17, 17, 0.4);
+        }
+
+        /* Lightbox System */
+        .forum-lightbox {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 17, 17, 0.96);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            padding: 2rem;
+        }
+
+        .forum-lightbox:target {
+            display: flex;
+        }
+
+        .lightbox-nav-row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+        }
+
+        .lightbox-close {
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 200;
+        }
+        
+        .lightbox-title {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        .lightbox-stage {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            max-width: 1100px;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .lightbox-image-artifact {
+            max-width: 100%;
+            height: auto;
+            max-height: 80vh;
+            border: 1px solid rgba(51, 51, 51, 0.8);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .marquee-forum-content, .standard-forum-content { padding: 2rem; }
+            .marquee-title { font-size: 1.85rem; }
+            .zoom-photo-signal { top: 1rem; right: 1rem; font-size: 0.7rem; }
+            .marquee-text, .forum-text { text-align: left; }
+            .lightbox-title { font-size: 1rem; text-align: center; max-width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section" style="min-height: auto; padding-bottom: 2rem;">
+        <nav>
+            <h1 class="site-title"><a href="index.html" style="color: white; text-decoration: none;">Shihan "Corrine" Zhang</a></h1>
+            <div class="nav-links">
+                <a href="gallery.html">The Gallery</a>
+                <a href="research.html">Research</a>
+                <a href="film-writing.html">Film & Writing</a>
+                <a href="praxis.html">PRAXIS</a>
+                <a href="forums.html">Forums</a>
+                <a href="recognitions.html">Recognitions</a>
+            </div>
+        </nav>
+    </section>
+
+    <section class="content-section" style="padding-top: 2rem;">
+        
+        <div class="forum-header-block">
+            <h2 class="section-label" style="margin-bottom: 1rem;">Public Deliveries & Symposia</h2>
+        </div>
+
+        <a href="#lightbox-un" class="forum-event-photo-gateway" style="background-image: url('images/un-forum-bg.jpg');">
+            <div class="marquee-forum-content">
+                <span class="zoom-photo-signal">[View Documentation Photos]</span>
+                <span class="marquee-tag">International Delegation</span>
+                <h3 class="marquee-title">UN Global Youth Forum</h3>
+                <div class="marquee-meta">Volunteering Delegate & Panel Contributor // Global Assemblies Domain</div>
+                
+                <div class="marquee-delivery-box">
+                    <h4 class="delivery-label">Insights Delivered</h4>
+                    <p class="marquee-text">
+                        Served as an active delegate and volunteer coordinator, translating grassroots community dynamics into actionable global frameworks. Delivered direct perspectives on structural empowerment, youth-led infrastructure networks, and the vital integration of cultural preservation models within sustainable development policies.
+                    </p>
+                </div>
+            </div>
+        </a>
+
+        <div id="lightbox-un" class="forum-lightbox">
+            <div class="lightbox-nav-row">
+                <h4 class="lightbox-title">Documentation: UN Global Youth Forum</h4>
+                <a href="#" class="lightbox-close">&times;</a>
+            </div>
+            <div class="lightbox-stage">
+                <img src="images/un-photo-1.jpg" alt="UN Assembly Proof" class="lightbox-image-artifact">
+            </div>
+        </div>
+
+
+        <div class="standard-forum-stream">
+            
+            <a href="#lightbox-symposium" class="forum-event-photo-gateway standard-forum-card" style="background-image: url('images/symposium-bg.jpg');">
+                <div class="standard-forum-content">
+                    <span class="zoom-photo-signal">[View Documentation Photos]</span>
+                    <h3 class="forum-title">Annual Undergraduate Research Symposium</h3>
+                    <div class="forum-meta">Presenter // Panel: Renewable Systems & Structural Design</div>
+                    <p class="forum-text">
+                        Presented ongoing research updates exploring airflow performance metrics inside modular frameworks. Addressed questions regarding pentagonal geometry, hardware scale boundaries, and thermal collection optimization pathways before an academic panel of faculty and peers.
+                    </p>
+                </div>
+            </a>
+
+            <div id="lightbox-symposium" class="forum-lightbox">
+                <div class="lightbox-nav-row">
+                    <h4 class="lightbox-title">Documentation: Research Symposium</h4>
+                    <a href="#" class="lightbox-close">&times;</a>
+                </div>
+                <div class="lightbox-stage">
+                    <img src="images/symposium-presenting.jpg" alt="Symposium Proof" class="lightbox-image-artifact">
+                </div>
+            </div>
+
+            <a href="#lightbox-diaspora" class="forum-event-photo-gateway standard-forum-card" style="background-image: url('images/diaspora-bg.jpg');">
+                <div class="standard-forum-content">
+                    <span class="zoom-photo-signal">[View Documentation Photos]</span>
+                    <h3 class="forum-title">Regional Material Culture and Diaspora Forum</h3>
+                    <div class="forum-meta">Invited Speaker // Session: Spatial Hierarchies & Gendered Labor</div>
+                    <p class="forum-text">
+                        Delivered a comprehensive research review detailing architectural layouts inside circular compound ecosystems. Used original print architectural diagrams to showcase the spatial containment of domestic routines, discussing systemic labor preservation frameworks with leading historical sociology researchers.
+                    </p>
+                </div>
+            </a>
+
+            <div id="lightbox-diaspora" class="forum-lightbox">
+                <div class="lightbox-nav-row">
+                    <h4 class="lightbox-title">Documentation: Material Culture Forum</h4>
+                    <a href="#" class="lightbox-close">&times;</a>
+                </div>
+                <div class="lightbox-stage">
+                    <img src="images/diaspora-speaker-proof.jpg" alt="Diaspora Forum Proof" class="lightbox-image-artifact">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

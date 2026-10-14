@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recognitions & Awards | Shihan Corrine Zhang</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Matrix Grid Layouts */
+        .scope-container {
+            max-width: 950px;
+            margin: 0 auto 5rem auto;
+        }
+
+        .scope-heading {
+            font-family: Georgia, serif;
+            font-size: 1.8rem;
+            color: #111111;
+            font-weight: 400;
+            border-bottom: 1px solid #111111;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
+        }
+
+        .certificate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Certificate Visual Proof Cards */
+        .award-card {
+            position: relative;
+            background-color: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 2px;
+            overflow: hidden;
+            aspect-ratio: 4 / 3; /* Matches standard landscape certificate geometry */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .award-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+        }
+
+        /* Certificate Image Behind Overlay */
+        .certificate-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(0.95) brightness(0.98);
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .award-card:hover .certificate-preview-img {
+            transform: scale(1.03);
+            filter: contrast(1) brightness(0.7); /* Darkens slightly on hover to keep text readable */
+        }
+
+        /* Permanent Content Badge Header */
+        .award-badge-bar {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10;
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .domain-tag {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 1px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Dynamic Domain Color Mappings */
+        .tag-research { background-color: #222222; }
+        .tag-academic { background-color: #444444; }
+        .tag-art      { background-color: #777777; }
+
+        /* Elegant Hover Information Shield */
+        .award-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(17, 17, 17, 0.95) 40%);
+            padding: 3rem 1.25rem 1.25rem 1.25rem;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transform: translateY(15px);
+            opacity: 0;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+
+        .award-card:hover .award-card-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .award-title {
+            font-family: Georgia, serif;
+            font-size: 1.15rem;
+            line-height: 1.3;
+            margin-bottom: 0.25rem;
+            font-weight: 400;
+        }
+
+        .award-issuer {
+            font-size: 0.8rem;
+            color: #cccccc;
+            letter-spacing: 0.02em;
+        }
+
+        /* --- Pure CSS Lightbox Configuration --- */
+        .award-lightbox {
+            display: none;
+            position: fixed;
+            z-index: 20000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 17, 17, 0.97);
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .award-lightbox:target {
+            display: flex;
+        }
+
+        .lightbox-close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2.5rem;
+            color: #ffffff;
+            font-size: 2.5rem;
+            text-decoration: none;
+            font-weight: 200;
+        }
+
+        .lightbox-panel img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border: 1px solid #222222;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+        }
+
+        @media (max-width: 768px) {
+            .certificate-grid { grid-template-columns: 1fr; }
+            .award-card-overlay { opacity: 1; transform: translateY(0); background: rgba(17, 17, 17, 0.75); padding: 1.25rem; }
+            .award-card:hover .certificate-preview-img { filter: contrast(1) brightness(0.6); }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section" style="min-height: auto; padding-bottom: 2rem;">
+        <nav>
+            <h1 class="site-title"><a href="index.html" style="color: white; text-decoration: none;">Shihan "Corrine" Zhang</a></h1>
+            <div class="nav-links">
+                <a href="gallery.html">The Gallery</a>
+                <a href="research.html">Research</a>
+                <a href="film-writing.html">Film & Writing</a>
+                <a href="praxis.html">PRAXIS</a>
+                <a href="forums.html">Forums</a>
+                <a href="recognitions.html">Recognitions</a>
+            </div>
+        </nav>
+    </section>
+
+    <section class="content-section" style="padding-top: 2rem;">
+        <h2 class="section-label" style="max-width: 950px; margin: 0 auto 3rem auto;">Selected Honors & Certifications</h2>
+
+        <div class="scope-container">
+            <h3 class="scope-heading">International Scope</h3>
+            <div class="certificate-grid">
+
+                <a href="#cert-intl-1" class="award-card">
+                    <div class="award-badge-bar">
+                        <span class="domain-tag tag-research">Research</span>
+                    </div>
+                    <img src="images/cert-intl-research.jpg" alt="Certificate Preview" class="certificate-preview-img">
+                    <div class="award-card-overlay">
+                        <h4 class="award-title">Global Youth Delegation Distinction</h4>
+                        <p class="award-issuer">UN Organizing Frameworks // 2026</p>
+                    </div>
+                </a>
+
+                <a href="#cert-intl-2" class="award-card">
+                    <div class="award-badge-bar">
+                        <span class="domain-tag tag-art">Art</span>
+                    </div>
+                    <img src="images/cert-intl-art.jpg" alt="Certificate Preview" class="certificate-preview-img">
+                    <div class="award-card-overlay">
+                        <h4 class="award-title">International Curatorial Selection</h4>
+                        <p class="award-issuer">Global Contemporary Arts Foundation // 2025</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="scope-container">
+            <h3 class="scope-heading">State Scope</h3>
+            <div class="certificate-grid">
+
+                <a href="#cert-state-1" class="award-card">
+                    <div class="award-badge-bar">
+                        <span class="domain-tag tag-academic">Academic</span>
+                    </div>
+                    <img src="images/cert-state-acad.jpg" alt="Certificate Preview" class="certificate-preview-img">
+                    <div class="award-card-overlay">
+                        <h4 class="award-title">Statewide Scholars Laureate</h4>
+                        <p class="award-issuer">Department of Secondary Education // 2025</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="scope-container">
+            <h3 class="scope-heading">Regional & Institutional Scope</h3>
+            <div class="certificate-grid">
+
+                <a href="#cert-school-1" class="award-card">
+                    <div class="award-badge-bar">
+                        <span class="domain-tag tag-research">Research</span>
+                    </div>
+                    <img src="images/cert-school-res.jpg" alt="Certificate Preview" class="certificate-preview-img">
+                    <div class="award-card-overlay">
+                        <h4 class="award-title">First Place: Engineering & Design Fair</h4>
+                        <p class="award-issuer">Institutional Research Council // 2026</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+    </section>
+
+    <div id="cert-intl-1" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-intl-research.jpg" alt="Enlarged Certificate"></div></div>
+    <div id="cert-intl-2" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-intl-art.jpg" alt="Enlarged Certificate"></div></div>
+    <div id="cert-state-1" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-state-acad.jpg" alt="Enlarged Certificate"></div></div>
+    <div id="cert-school-1" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-school-res.jpg" alt="Enlarged Certificate"></div></div>
+
+</body>
+</html>
