@@ -6,7 +6,6 @@
     <title>Research Portfolio | Shihan Corrine Zhang</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Research Archive Layout */
         .research-section-title {
             font-family: Georgia, serif;
             font-size: 1.8rem;
@@ -23,7 +22,7 @@
 
         .research-card {
             max-width: 850px;
-            margin: 0 auto 4rem auto;
+            margin: 0 auto 3rem auto;
             background-color: #ffffff;
             border: 1px solid #eaeaea;
             padding: 2.5rem;
@@ -36,26 +35,25 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.03);
         }
 
-        /* Domain Tags */
         .tag-container {
             display: flex;
             gap: 0.5rem;
             margin-bottom: 1.25rem;
+            flex-wrap: wrap;
         }
 
         .research-tag {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            background-color: #f5f5f5;
-            color: #666666;
+            background-color: #f4f4f4;
+            color: #555555;
             padding: 0.35rem 0.75rem;
             border-radius: 2px;
         }
 
-        /* Typography */
         .citation-line {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             line-height: 1.5;
             color: #111111;
             margin-bottom: 1.5rem;
@@ -68,38 +66,40 @@
         .abstract-block {
             border-left: 3px solid #eeeeee;
             padding-left: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .abstract-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: #888888;
             margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .abstract-text {
-            font-size: 0.98rem;
+            font-size: 0.95rem;
             line-height: 1.65;
             color: #444444;
             text-align: justify;
         }
 
-        /* Action Buttons */
         .button-group {
             display: flex;
             gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
         }
 
         .research-btn {
             display: inline-flex;
             align-items: center;
-            padding: 0.6rem 1.2rem;
-            font-size: 0.85rem;
+            padding: 0.65rem 1.3rem;
+            font-size: 0.8rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             text-decoration: none;
             transition: all 0.2s ease;
             border: 1px solid #111111;
@@ -111,8 +111,8 @@
         }
 
         .btn-primary:hover {
-            background-color: #444444;
-            border-color: #444444;
+            background-color: #333333;
+            border-color: #333333;
         }
 
         .btn-secondary {
@@ -124,6 +124,20 @@
             background-color: #f9f9f9;
         }
 
+        .screenshot-container {
+            margin: 1.5rem 0;
+            border: 1px solid #eaeaea;
+            padding: 0.5rem;
+            background-color: #fafafa;
+        }
+
+        .screenshot-container img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .research-card { padding: 1.5rem; }
             .button-group { flex-direction: column; }
@@ -132,89 +146,102 @@
     </style>
 </head>
 <body>
-
-    <section class="hero-section" style="min-height: auto; padding-bottom: 3rem;">
+    <section class="hero-section" style="min-height: auto; padding-bottom: 2rem;">
         <nav>
             <h1 class="site-title"><a href="index.html" style="color: white; text-decoration: none;">Shihan "Corrine" Zhang</a></h1>
             <div class="nav-links">
                 <a href="gallery.html">The Gallery</a>
-                <a href="research.html">Research</a>
+                <a href="research.html" class="active">Research</a>
                 <a href="film-writing.html">Film & Writing</a>
                 <a href="praxis.html">PRAXIS</a>
-                <a href="forums.html">Forums</a>
+                <a href="ecotrace.html">EcoTrace</a>
                 <a href="recognitions.html">Recognitions</a>
             </div>
         </nav>
     </section>
 
     <section class="content-section" style="padding-top: 1rem;">
-        <h2 class="section-label" style="max-width: 850px; margin: 0 auto 2rem auto;">Academic Inquiries & Abstracts</h2>
+        <h2 class="section-label" style="max-width: 850px; margin: 0 auto 2rem auto;">Publications</h2>
 
         <h3 class="research-section-title">Peer-Reviewed Publications</h3>
 
+        <!-- Publication #1: TENG Hybrid Generator -->
         <div class="research-card">
-            <div class="tag-container">
-                <span class="research-tag">Solar Engineering</span>
-                <span class="research-tag">Thermal Dynamics</span>
-            </div>
+            
             <div class="citation-line">
-                <strong>Zhang, S. C.</strong>, & Reynolds, M. T. (2026). "Optimizing Airflow Distribution Profiles Within Specialized Pentagonal Beehive Solar Thermal Matrices." <em>Journal of Renewable Atmospheric Systems</em>, 14(2), 112–128.
+                <strong>Zhang, S.</strong> (2026). "Broadband Wind-Driven Hybrid Triboelectric–Electromagnetic Generator for Sufficient Self-Powered Atmospheric Environment Monitoring." <em>Micromachines</em> (MDPI), 17(7), 809.
             </div>
             <div class="abstract-block">
                 <p class="abstract-label">Abstract</p>
                 <p class="abstract-text">
-                    This inquiry addresses ventilation efficiency limits found inside modular heating grids. By standardizing a highly replicable pentagonal assembly pattern, our physical simulations demonstrated a marked improvement in localized solar collection velocity. The resulting data points to a major structural alternative for balancing winter thermal collection profiles while limiting baseline structural installation overhead.
+                    Self-powered monitoring systems capable of scavenging ambient mechanical energy are a highly desirable solution to eliminate the reliance on batteries and grid power in remote and distributed atmospheric sensing networks. However, the widespread adoption of such systems is severely hindered by the insufficient output power density of current energy harvesters, which struggle to simultaneously drive environmental sensors, data acquisition units, and wireless transmission modules. In this work, we report a highly integrated hybrid power generation system that couples a triboelectric nanogenerator (TENG) and an electromagnetic generator (EMG) to efficiently harvest low-frequency mechanical energy from the surroundings. Through systematic structural optimization and synergistic matching of the two transduction mechanisms, the device achieves an outstanding volumetric power density of 129.9 W·m−3, which represents one of the highest values ever reported for hybrid nanogenerators targeting self-powered environmental applications. The output characteristics of both the TENG and EMG units under varying load impedances are thoroughly characterized, revealing the optimal operating points for maximum power extraction. A tailored power management module, consisting of rectification, energy storage, and regulation circuits, is designed to convert the irregular alternating output into a stable direct-current supply. To demonstrate the practical viability of the system, we construct a complete self-powered atmospheric environment monitoring node, which integrates multiple environmental sensors, a data acquisition module, and a wireless transmission module. Driven exclusively by the hybrid TENG–EMG generator under ambient mechanical excitation, the node successfully performs real-time sensing, signal processing, and remote data communication without any external power input. This work not only provides a record-high power density among hybrid generators for environmental monitoring, but also establishes a feasible pathway toward maintenance-free, widely distributed, and truly autonomous atmospheric sensing networks. The presented strategy of maximizing volumetric power density through hybrid design and impedance engineering can be readily extended to other self-powered systems.
                 </p>
             </div>
             <div class="button-group">
-                <a href="assets/beehive-paper-final.pdf" class="research-btn btn-primary" target="_blank">Download Full Paper (PDF)</a>
-                <a href="https://doi.org/placeholder" class="research-btn btn-secondary" target="_blank">View Journal Index</a>
+                <a href="https://www.mdpi.com/2072-666X/17/7/809" class="research-btn btn-primary" target="_blank">View Article on MDPI Journal</a>
             </div>
         </div>
 
+        <!-- Publication #2: Pentagonal Solar Air Collector -->
         <div class="research-card">
-            <div class="tag-container">
-                <span class="research-tag">Hakka Material Culture</span>
-                <span class="research-tag">Domestic Labor Mapping</span>
-            </div>
+            
             <div class="citation-line">
-                <strong>Zhang, S. C.</strong> (2025). "The Geography of Silence: Spatial Layouts and Transgenerational Labor Erasure in Fujian Tulou Compounds." <em>International Review of Historical Sociology</em>, 29(4), 341–359.
+                <strong>Zhang, S.</strong> (2025). "Environmentally Friendly Solar Heat Collection System based on Foam Copper-Enhanced Phase Change Materials." <em>9th International Conference on Environmental Science and Civil Engineering (ICESEC)</em>.
             </div>
+
+            <!-- Screenshot of International Conference Acceptance Letter -->
+            <div class="screenshot-container">
+                <img src="images/SA_acceptance.png" alt="ICESEC Conference Acceptance Letter">
+            </div>
+
             <div class="abstract-block">
                 <p class="abstract-label">Abstract</p>
                 <p class="abstract-text">
-                    This study tracks how physical architectural design layouts quietly reinforce social expectations and divide domestic labor across generations inside standard Fujian Hakka circular compounds. Using spatial layout diagrams alongside historical interviews, this paper details the hidden daily operations maintained entirely by female family lines, framing their collective strategies as key actions of agency and community building.
+                    To reduce the consumption of fossil fuels for building heating and address the problems of insufficient heat storage density and low heat transfer efficiency existing in traditional solar air collectors. This paper presents a novel evacuated cube-structured solar air collector integrated with copper foam-enhanced PCM. A Monte Carlo-based MATLAB simulation was conducted to determine the optimal operating parameters. The simulation results reveal that the optimal air mass flow rate ranges from 0.05 kg/s to 0.08 kg/s, increasing with PCM melting temperature up to 40 °C and then stabilizing. The heat absorption efficiency (0.4–0.6) and heat release efficiency (0.5–0.7) reach an optimal balance at a PCM temperature of 40 °C with minimal fluctuation. The recommended operating window (PCM temperature: 35–45 °C; air flow rate: 0.05–0.08 kg/s) exhibits strong robustness against ±5% parameter errors. A prototype composite collector and a reference non-composite collector were fabricated and tested under the optimized conditions. The heat absorption experiment lasted 2 hours, and the heat release experiment exceeded 7 hours. Experimental results show that the composite collector improves heat absorption efficiency by 11% and heat release efficiency by 21.39% compared with the non-composite design. This work provides a high-performance, low-cost, and environmentally friendly solar air collector for building heating and agricultural greenhouse applications.
                 </p>
             </div>
             <div class="button-group">
-                <a href="assets/fujian-paper-final.pdf" class="research-btn btn-primary" target="_blank">Download Full Paper (PDF)</a>
-                <a href="https://doi.org/placeholder" class="research-btn btn-secondary" target="_blank">View Journal Index</a>
+                <a href="assets/solar.doc" class="research-btn btn-primary" download>Download Paper</a>
             </div>
         </div>
 
-
-        <h3 class="research-section-title">Working Papers & Manuscripts</h3>
-
+        <!-- Publication #3: Microalgae Biodiesel -->
         <div class="research-card">
-            <div class="tag-container">
-                <span class="research-tag">Ecological Modeling</span>
-                <span class="research-tag">Soil Architecture</span>
-            </div>
+            
             <div class="citation-line">
-                <strong>Zhang, S. C.</strong>, & Lee, K. Y. (Manuscript in Review). "Tracing Structural Longevity: Organic Material Dependencies and Topographical Soil Diagnostics in Coastal Eco-Systems."
+                Xie, Y., <strong>Zhang, S.</strong>, et al. (2025). "Investigation in the Effect of Nitrogen Concentration in Wastewater and Light Conditions on the Yield of Biodiesel Produced by Microalgae." <em>5th International Conference on Material Chemistry and Environmental Engineering (EWA Publishing)</em>.
             </div>
             <div class="abstract-block">
                 <p class="abstract-label">Abstract</p>
                 <p class="abstract-text">
-                    This paper investigates the immediate physical feedback loops running between natural vegetation systems and regional architectural preservation settings. Through data gathered in field samples across coastal regions, our analytics track how changing soil chemistry directly impacts foundation stability thresholds over extended periods.
+                    This paper simulates biofuel production from algae (Chlorella) in wastewater. It analyzes the effects of three factors—sunlight intensity, photosynthesis time, and nitrogen concentration in wastewater—on algal biomass and biodiesel yield. Additionally, the research establishes and applies mathematical models to the analysis of two different places, where the results show that in Shaanxi Province and Qinghai Province, the biodiesel yield per cubic meter of wastewater is 23.5 g/m³ and 8.9 g/m³ respectively. The biofuel yield of the system is 10% of the algal biomass. Furthermore, the paper concludes that the system's energy consumption mainly lies in the hydrogenation treatment section. The total energy consumption for producing 1 kg biodiesel is 937 MJ (blue H2), 855 MJ (grey H2) and 981 MJ (green H2) respectively. The carbon emissions for producing 1kg biodiesel is -2.2 kg CO2(blue H2), 25.9 kg CO2(grey H2) and -17.8 kg CO2(green H2) respectively.
                 </p>
             </div>
             <div class="button-group">
-                <a href="mailto:your-email@domain.com?subject=Inquiry regarding Coastal Eco Manuscript" class="research-btn btn-secondary">Request Manuscript Copy</a>
+                <a href="https://ace.ewapub.com/article/view/29850" class="research-btn btn-primary" target="_blank">View Article on EWA Publishing</a>
+            </div>
+        </div>
+
+        <h3 class="research-section-title">Working Manuscripts</h3>
+
+        <!-- Publication #4: UF SSTP Biosolids Remediation -->
+        <div class="research-card">
+            
+            <div class="citation-line">
+                <strong>Zhang, S.</strong>, & Lin, Y. (2026). "Biosolids Remediation and Soil Phosphorus Leaching Reduction in Sandy Spodosols." <em>University of Florida Student Science Training Program (Lin Lab)</em>.
+            </div>
+            <div class="abstract-block">
+                <p class="abstract-label">Abstract & Ongoing Work</p>
+                <p class="abstract-text">
+                    Repeated biosolid applications have accumulated legacy phosphorus (P) in sandy Florida Spodosols, where low metal-oxide content facilitates subsurface leaching and downstream eutrophication. This study evaluated the comparative effectiveness of calcium- (Ca-), iron- (Fe-), and aluminum- (Al-) based drinking water treatment residuals (WTRs) and pine biochar in mitigating P mobility. Using bahiagrass-planted soil columns mimicking a layered ranch profile, amendments were applied to the topsoil at 1% or 2% by mass and subjected to five weekly simulated rainfall events (pH 5.0). The 1% Ca-WTR treatment was most effective, reducing cumulative P export by 51.0% relative to the control. While 1% biochar reduced P losses by 43.2%, doubling the dose to 2% eliminated this benefit, causing P leaching comparable to the control. Leachate pH remained stable (6.2–6.8), and initial spikes in electrical conductivity quickly returned to baseline. Additionally, vegetative growth significantly reduced drainage volumes over time. These findings demonstrate that low-dosage (1%) WTRs and biochar successfully retain legacy P without degrading water quality, but higher application rates can lead to treatment failure in carbonaceous sorbents.
+
+                </p>
+            </div>
+            <div class="button-group">
+                <a href="assets/uf-sstp-biosolids-manuscript.docx" class="research-btn btn-primary" download>Download Manuscript</a>
             </div>
         </div>
 
     </section>
-
 </body>
 </html>

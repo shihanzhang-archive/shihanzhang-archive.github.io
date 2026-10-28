@@ -1,809 +1,721 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrace | Carbon Incentive Platform</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        eco: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 900: '#14532d' }
-                    }
-                }
-            }
-        }
-    </script>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>EcoTrace | Carbon Incentive Platform</title>
+   <!-- Tailwind CSS for styling -->
+   <script src="https://cdn.tailwindcss.com"></script>
+   <script>
+       tailwind.config = {
+           theme: {
+               extend: {
+                   colors: {
+                       eco: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 900: '#14532d' }
+                   }
+               }
+           }
+       }
+   </script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
-
-    <!-- GLOBAL NAVIGATION HEADER -->
-    <header class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
-        <div class="flex items-center gap-6">
-            <a href="index.html" class="text-xs text-slate-400 hover:text-emerald-400 transition">← Back to Portfolio</a>
-            <span class="font-extrabold text-xl tracking-tight text-emerald-400">
-                EcoTrace
-            </span>
-        </div>
-
-        <div class="flex items-center gap-3">
-            <div class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-xs font-bold text-emerald-400">
-                <span id="userPointsDisplay">0</span> Pts
-            </div>
-            
-            <button onclick="toggleLanguage()" id="langToggleBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-full border border-slate-700 transition">
-                中文
-            </button>
-
-            <button onclick="openAuthModal()" id="authHeaderBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-full font-bold transition">
-                <span id="authHeaderLabel">Sign In</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- SUB-NAVIGATION BAR (Single Language Display) -->
-    <nav class="bg-white border-b border-slate-200 px-6 py-3 flex justify-center gap-2 md:gap-4 text-xs md:text-sm font-semibold">
-        <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-1.5 rounded-xl bg-emerald-50 text-emerald-700">Home</button>
-        <button onclick="switchTab('clubs')" id="tab-clubs" class="tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100">Organizations</button>
-        <button onclick="switchTab('market')" id="tab-market" class="tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100">Marketplace</button>
-        <button onclick="switchTab('profile')" id="tab-profile" class="tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100">Wallet</button>
-    </nav>
-
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-5xl mx-auto px-6 py-8">
-
-        <!-- AUTH MODAL (Perspective Switcher Removed) -->
-        <div id="authModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-100 relative">
-                <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
-                
-                <h3 id="authModalTitle" class="text-xl font-extrabold text-slate-900 mb-1">Sign In to EcoTrace</h3>
-                <p id="authModalSub" class="text-xs text-slate-500 mb-6">Enter your email and password to access your carbon wallet and organizations.</p>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Email Address</label>
-                        <input type="email" id="authEmailInput" placeholder="user@ecotrace.org" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Password</label>
-                        <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Optional Invitation / Organization Code</label>
-                        <input type="text" id="authClubCodeInput" placeholder="Enter Organization Code" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    </div>
-
-                    <button onclick="handleLoginSubmit()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl transition shadow-md">
-                        Login / Create Account
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PHOTO VERIFICATION UPLOAD MODAL -->
-        <div id="photoVerifyModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
-                <button onclick="closePhotoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
-
-                <h3 class="text-lg font-extrabold text-slate-900 mb-1" id="verifyTaskTitle">Upload Action Proof</h3>
-                <p class="text-xs text-slate-500 mb-4">Select or drag & drop a photo verifying your action to claim points.</p>
-
-                <div class="space-y-4">
-                    <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center bg-slate-50 relative hover:border-emerald-500 transition">
-                        <input type="file" id="taskImageInput" accept="image/*" onchange="previewTaskImage(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-                        <div id="uploadPlaceholder">
-                            <p class="text-xs font-bold text-slate-700">Click or drag photo here to upload</p>
-                            <p class="text-[10px] text-slate-400 mt-1">Supports JPG, PNG, WEBP</p>
-                        </div>
-                        <img id="imagePreview" class="hidden max-h-48 rounded-xl mx-auto border shadow-sm">
-                    </div>
-
-                    <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-[11px] text-amber-800">
-                        Notice: Submissions are verified by organization leaders.
-                    </div>
-
-                    <button onclick="confirmTaskSubmission()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl transition shadow">
-                        Submit Proof & Claim <span id="pendingPtsLabel">0</span> Points
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW 1: HOME -->
-        <section id="view-home" class="space-y-8">
-            <!-- HERO BANNER WITH BACKGROUND IMAGE OVERLAY -->
-            <div class="rounded-3xl p-8 text-white shadow-lg bg-cover bg-center relative overflow-hidden" style="background-image: linear-gradient(to right, rgba(15, 23, 42, 0.82), rgba(13, 148, 136, 0.82)), url('https://images.unsplash.com/photo-1511497584788-876761c119ef?auto=format&fit=crop&w=1200&q=80');">
-                <h1 id="homeTitle" class="text-3xl font-black mb-2 relative z-10">EcoTrace Carbon Incentive Platform</h1>
-                <p id="homeSub" class="text-emerald-100 text-sm max-w-2xl mb-6 relative z-10">Empowering sustainability through micro-action tracking across Shanghai transit and Florida coastal ecosystems.</p>
-                
-                <div class="flex flex-wrap gap-3 relative z-10">
-                    <button onclick="earnPoints(1, 'Daily Eco Check-in')" class="bg-white text-emerald-900 font-bold text-xs px-5 py-3 rounded-xl shadow hover:bg-emerald-50 transition">
-                        ✓ <span id="btnCheckin">Daily Check-in</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- NEWS & UPDATES BLOG FEED (CLEAN PROSE) -->
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                    <div>
-                        <h3 class="text-xl font-black text-slate-900">News</h3>
-                    </div>
-                    <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full uppercase tracking-wider">Updates Feed</span>
-                </div>
-
-                <!-- Blog Style Pure Text Feed -->
-                <div class="space-y-6" id="homeNewsFeed">
-                    <!-- June 2026 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">June 2026</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Huge news guys—we officially hit 500 kg of CO₂ reduced! Huge shoutout to everyone stepping up! The biggest chunk came from switching to walking, biking, and taking public transit instead of driving, plus actually remembering to turn off the lights and AC whenever we leave homeroom. We also collected & recycled over 500 plastic bottles from beaches, and reusing all those donated art supplies cut down a ton of waste too. Super proud of what we've built together!</li>
-                        </ul>
-                    </div>
-
-                    <!-- April 2026 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">April 2026</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Pre-Loved Art Supply Drive is live! Drop off any gently used acrylic paints, canvas boards, brushes, or palettes you have lying around. Let's give these extra supplies a second life instead of letting them sit in a closet or go to waste.</li>
-                        </ul>
-                    </div>
-
-                    <!-- January 2026 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">January 2026</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Welcoming Blue Coast Alliance! Super excited to bring Blue Coast Alliance onto EcoTrace. They’re leading the charge on beach plastic pickups and marine conservation down in Florida—enter their code to unlock their tasks!</li>
-                        </ul>
-                    </div>
-
-                    <!-- November 2025 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">November 2025</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>ArcTerra is officially on EcoTrace! Welcome to the ArcTerra crew! They’re focusing on home composting, soil health, and native planting. Grab their code to get in on their actions.</li>
-                        </ul>
-                    </div>
-
-                    <!-- December 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">December 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>New reward partners unlocked! We just teamed up with TanSuo Cafe and Huaiyang Agricultural Specialties. You can now redeem your hard-earned points for coffee, fresh pastries, and local goods right in your voucher wallet.</li>
-                        </ul>
-                    </div>
-
-                    <!-- September 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">September 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>CarbonDisc has joined EcoTrace! Shoutout to CarbonDisc for coming on board. If you're commuting around Shanghai by metro, riding shared bikes, or doing the Clean Plate challenge, start logging your points under their organization!</li>
-                        </ul>
-                    </div>
-
-                    <!-- August 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">August 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>EcoTrace is officially live! Started building this platform to give us a real way to track and incentivize our daily green micro-actions. Check out the site, test the tasks, and let’s start accumulating points!</li>
-                        </ul>
-                    </div>
-
-                    <!-- May 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">May 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Welcome Tan Zhi Heng Co.! Huge shoutout to Tan Zhi Heng Co. for teaming up with us in Shanghai! They’re taking charge on room AC/light shutdowns and daily transit tracking.</li>
-                        </ul>
-                    </div>
-
-                    <!-- April 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">April 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Long Museum Case Study: Just wrapped up our case study on the Long Museum! We analyzed how large exhibition spaces can cut down on energy use and improve sustainability during exhibitions.</li>
-                            <li>Meeting Notice: Meeting this Wednesday (Apr 24), 16:00–16:50 in Class 10-6 homeroom. See you guys there!</li>
-                            <li>Meeting Notice: Meeting this Wednesday (Apr 10), 16:00–16:50 in Class 10-6 homeroom.</li>
-                        </ul>
-                    </div>
-
-                    <!-- March 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">March 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Guest Speaker Alert: We’re interviewing Dr. Yu from TU Delft! Join us via Tencent Meeting code <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-emerald-700">882-940-123</code> to learn about sustainable urban infrastructure and ask questions.</li>
-                            <li>Meeting Notice: Meeting this Wednesday (Mar 27), 16:00–16:50 in Class 10-6 homeroom. We’ll be doing member presentations and a Harkness discussion on urban sustainability.</li>
-                            <li>Meeting Notice: Meeting this Wednesday (Mar 13), 16:00–16:50 in Class 10-6 homeroom.</li>
-                        </ul>
-                    </div>
-
-                    <!-- February 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">February 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Stanford SPICE Share-out: Sharing key takeaways and experience from the Stanford e-China program this week! We’ll follow up with a Harkness discussion on how we can apply these climate strategies locally.</li>
-                            <li>Meeting Notice: Meeting this Wednesday (Feb 28), 16:00–16:50 in Class 10-6 homeroom.</li>
-                            <li>Meeting Notice: Meeting this Wednesday (Feb 14), 16:00–16:50 in Class 10-6 homeroom.</li>
-                        </ul>
-                    </div>
-
-                    <!-- January 2024 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">January 2024</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Meeting Notice (Jan 31): Biweekly meeting this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
-                            <li>Xinzhuang Industrial Park Invite: EcoEnvisionary was invited to attend the Xinzhuang Industrial Park Carbon Reduction meeting on Jan 21! Representing youth climate initiatives and discussing regional reduction strategies.</li>
-                            <li>Meeting Notice (Jan 17): Biweekly meeting this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
-                            <li>Meeting Notice (Jan 3): Happy New Year! First biweekly meeting of 2024 this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
-                        </ul>
-                    </div>
-
-                    <!-- December 2023 -->
-                    <div class="space-y-2 border-b border-slate-100 pb-4">
-                        <h4 class="text-base font-extrabold text-slate-900">December 2023</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>Meeting Notice (Dec 20): Biweekly meeting this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
-                            <li>Saltwater Carbon Battery Lab (Dec 5): Hands-on lab day! We built a DIY saltwater carbon battery using a porous conductive foam structure and carbon powder, then hooked it up to test the voltage and current output.</li>
-                            <li>Meeting Notice (Dec 6): First official biweekly club meeting! Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
-                        </ul>
-                    </div>
-
-                    <!-- November 2023 -->
-                    <div class="space-y-2">
-                        <h4 class="text-base font-extrabold text-slate-900">November 2023</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
-                            <li>EcoEnvisionary Club Established! We are officially a club! Pumped to combine real environmental research, hands-on experiments, and actionable campus sustainability projects together.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Regional Strategy Highlights -->
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <span class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded mb-2 inline-block">Shanghai Hub</span>
-                    <h3 id="shTitle" class="font-bold text-lg mb-2">Urban Commute & Zero-Waste</h3>
-                    <p id="shDesc" class="text-xs text-slate-600">Track metro rides, shared bikes, empty plate clean-up (光盘行动), and bring-your-own-tumbler orders at TanSuo Cafe.</p>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <span class="text-[10px] font-bold bg-cyan-100 text-cyan-700 px-2 py-0.5 rounded mb-2 inline-block">Florida Hub</span>
-                    <h3 id="flTitle" class="font-bold text-lg mb-2">Coastal Marine Conservation</h3>
-                    <p id="flDesc" class="text-xs text-slate-600">Earn points per plastic bottle picked up along coastal shores, bucket cleanups, reef-safe sunscreen, and rainwater harvesting.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW 2: ORGANIZATIONS & TASKS -->
-        <section id="view-clubs" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
-                <div>
-                    <h3 id="joinClubHeader" class="font-bold text-base">Join an Organization</h3>
-                    <p class="text-xs text-slate-500">Have an invitation code from an organization administrator? Enter it below to unlock local tasks & rewards.</p>
-                </div>
-                <div class="flex gap-2 w-full md:w-auto">
-                    <input type="text" id="clubCodeInput" placeholder="Enter Code" class="bg-slate-100 px-3 py-2 rounded-xl text-xs border border-slate-300 w-full md:w-48">
-                    <button onclick="joinClubByCode()" class="bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-xl hover:bg-slate-800 transition">Join</button>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6" id="clubsContainer"></div>
-        </section>
-
-        <!-- VIEW 3: MARKETPLACE -->
-        <section id="view-market" class="hidden space-y-8">
-            <div class="bg-slate-900 text-white p-6 rounded-2xl flex justify-between items-center">
-                <div>
-                    <p id="lblMarketBalance" class="text-xs text-slate-400">Available Carbon Points</p>
-                    <p class="text-2xl font-black text-emerald-400"><span id="marketPointsDisplay">0</span> PTS</p>
-                </div>
-                <p id="lblInstantRedeem" class="text-xs text-slate-400">Redeem vouchers for local in-person pickup</p>
-            </div>
-
-            <!-- EcoEnvisionaries Global Rewards Catalog -->
-            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                <div class="border-b border-slate-100 pb-3 flex justify-between items-end">
-                    <div>
-                        <span class="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Default Global Organization</span>
-                        <h3 class="text-lg font-black text-slate-900 mt-1">EcoEnvisionaries Partner Catalog</h3>
-                    </div>
-                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Unlocked for All Users ✓</span>
-                </div>
-
-                <!-- 1. TanSuo Cafe Collaborations -->
-                <div>
-                    <h4 class="text-xs font-bold text-slate-700 mb-2">TanSuo Cafe Vouchers & Pastries</h4>
-                    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="artCafeContainer"></div>
-                </div>
-
-                <!-- 2. Pre-Loved Art Supplies -->
-                <div>
-                    <h4 class="text-xs font-bold text-slate-700 mb-2">Pre-Loved Art Supplies</h4>
-                    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="artRewardsContainer"></div>
-                </div>
-
-                <!-- 3. Brainstormed Eco Business Collaborations -->
-                <div>
-                    <h4 class="text-xs font-bold text-slate-700 mb-2">Local Business Eco Collaborations</h4>
-                    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="ecoBusinessContainer"></div>
-                </div>
-            </div>
-
-            <!-- CarbonDisc Exclusive Rewards -->
-            <div>
-                <h3 class="text-base font-bold text-slate-900 mb-1">CarbonDisc Commuter Perks</h3>
-                <p class="text-xs text-slate-500 mb-3">Exclusive rewards for <b>CarbonDisc</b> members</p>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="carbonDiscRewardsContainer"></div>
-            </div>
-
-            <!-- Blue Coast Alliance Exclusive Rewards -->
-            <div>
-                <h3 class="text-base font-bold text-slate-900 mb-1">Coastal Conservation Rewards</h3>
-                <p class="text-xs text-slate-500 mb-3">Exclusive rewards for <b>Blue Coast Alliance</b> members</p>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="bcaRewardsContainer"></div>
-            </div>
-
-            <!-- ArcTerra Exclusive Rewards -->
-            <div>
-                <h3 class="text-base font-bold text-slate-900 mb-1">Terrestrial Ecology & Soil Rewards</h3>
-                <p class="text-xs text-slate-500 mb-3">Exclusive rewards for <b>ArcTerra</b> members</p>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="arcTerraRewardsContainer"></div>
-            </div>
-        </section>
-
-        <!-- VIEW 4: PROFILE & WALLET -->
-        <section id="view-profile" class="hidden max-w-xl mx-auto space-y-6">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-emerald-100 text-emerald-700 font-bold rounded-full flex items-center justify-center text-sm">
-                        User
-                    </div>
-                    <div>
-                        <h3 id="profileUserEmail" class="font-bold text-sm text-slate-900">Guest User</h3>
-                        <p id="profileClubsCount" class="text-xs text-slate-500">Not signed in</p>
-                    </div>
-                </div>
-                <button onclick="handleLogout()" id="logoutBtn" class="hidden text-xs font-bold text-red-500 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition">
-                    Logout
-                </button>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <h4 id="walletTitle" class="font-bold text-sm mb-3">My Voucher Wallet</h4>
-                <div id="walletList" class="space-y-2">
-                    <p class="text-xs text-slate-400 text-center py-4 border border-dashed border-slate-200 rounded-xl">No redeemed vouchers yet. Complete tasks & earn points to unlock rewards!</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- JAVASCRIPT LOGIC & LOCAL STATE -->
-    <script>
-        let currentLang = 'EN';
-        
-        // DEFAULT STATE: NOT LOGGED IN
-        let isLoggedIn = false;
-        let currentUserEmail = 'Guest User';
-        let points = 0;
-        let joinedClubs = ['ECO-ENV'];
-        let redeemedWallet = [];
-
-        let pendingTask = null;
-        let selectedTaskImageData = null;
-
-        // Master Organizations Directory (5 distinct authentic voices)
-        const clubsData = [
-            {
-                id: 'ECO-ENV',
-                name: 'EcoEnvisionaries',
-                code: 'GLOBAL',
-                region: 'Global',
-                bannerImg: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80',
-                descEN: 'Hey everyone! We are the founding crew behind EcoTrace. We blend hands-on science experiments, climate data, and campus initiatives so anyone anywhere can make a measurable dent in emissions.',
-                descZH: '大家好！我们是发起 EcoTrace 的创始团队。我们融合动手科学实验、气候数据与校园低碳倡议，让每个人都能记录可衡量的减排成果。',
-                tasks: [
-                    { nameEN: 'Daily Eco Check-in', nameZH: '每日低碳签到', pts: 1, requirePhoto: false },
-                    { nameEN: 'Unsubscribe 10 Promo Emails', nameZH: '清理10封营销推广邮件', pts: 5, requirePhoto: true }
-                ]
-            },
-            {
-                id: 'DISC',
-                name: 'CarbonDisc',
-                code: 'DISC21',
-                region: 'Shanghai',
-                bannerImg: 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=800&q=80',
-                descEN: 'Shanghai hustle hits different when you do it low-carbon! We are all about crushing daily commutes on metros, dodging traffic on shared bikes, and flexing clean empty plates after dinner.',
-                descZH: '低碳出行的上海节奏！我们专注于地铁公交高效通勤、共享单车穿街过巷，以及餐后炫出干净的“光盘”打卡！',
-                tasks: [
-                    { nameEN: 'Metro or Bus Commute', nameZH: '乘坐地铁或公交1次', pts: 2, requirePhoto: true },
-                    { nameEN: 'Shared Bike Ride (>1 km)', nameZH: '共享单车骑行>1公里', pts: 2, requirePhoto: true },
-                    { nameEN: 'Clean Plate Photo Proof (光盘行动)', nameZH: '光盘行动拍照打卡', pts: 2, requirePhoto: true },
-                    { nameEN: 'BYO Tumbler at TanSuo Cafe', nameZH: '自带杯至探索咖啡消费', pts: 4, requirePhoto: true }
-                ]
-            },
-            {
-                id: 'TZH',
-                name: 'Tan Zhi Heng Co.',
-                code: 'TZH888',
-                region: 'Shanghai',
-                bannerImg: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
-                descEN: 'Welcome to Tan Zhi Heng Co.! We are a focused team in Shanghai taking direct operational action on energy discipline—from shutting down ACs and lights in empty rooms to mastering zero-emission commutes.',
-                descZH: '欢迎来到 Tan Zhi Heng Co.！我们是一支注重落地执行的上海团队，专注节能细节：离开教室必关空调电灯，贯彻日常零碳出行。',
-                tasks: [
-                    { nameEN: 'Turn Off Lights / AC When Leaving Room', nameZH: '离室关闭电灯与空调', pts: 3, requirePhoto: true },
-                    { nameEN: 'Metro or Bus Commute', nameZH: '乘坐地铁或公交1次', pts: 2, requirePhoto: true },
-                    { nameEN: 'Shared Bike Ride (>1 km)', nameZH: '共享单车骑行>1公里', pts: 2, requirePhoto: true }
-                ]
-            },
-            {
-                id: 'BCA',
-                name: 'Blue Coast Alliance',
-                code: 'BCA001',
-                region: 'Florida',
-                bannerImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-                descEN: 'If you love the ocean as much as we do, welcome home! We are out on Florida shores picking up ocean-bound plastics, switching to reef-safe sunscreen, and keeping our coastlines clean.',
-                descZH: '如果你和我们一样热爱大海，欢迎加入！我们在佛罗里达海岸清理塑料垃圾、推广珊瑚礁友好防晒，守护我们的蔚蓝海岸。',
-                tasks: [
-                    { nameEN: 'Beach Plastic Bottle Collection (Per Bottle)', nameZH: '海滩捡拾塑料瓶（每瓶）', pts: 2, requirePhoto: true },
-                    { nameEN: 'Marine Debris Bucket Challenge (5 kg)', nameZH: '清理 5kg 沿海垃圾桶', pts: 25, requirePhoto: true },
-                    { nameEN: 'Reef-Safe Sunscreen Use', nameZH: '使用海洋友好型防晒霜打卡', pts: 3, requirePhoto: true },
-                    { nameEN: 'Invasive Plant Removal (1 hr)', nameZH: '清除海岸外来入侵植物（1小时）', pts: 15, requirePhoto: true }
-                ]
-            },
-            {
-                id: 'ARCTERRA',
-                name: 'ArcTerra',
-                code: 'ARC888',
-                region: 'Global',
-                bannerImg: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=800&q=80',
-                descEN: 'Dirt nerds unite! We are obsessed with soil health, turning kitchen scraps into rich compost, harvesting rainwater, and planting native species that actually belong here.',
-                descZH: '土壤爱好者集结！我们热衷于改善土壤健康、将厨余垃圾转化为优质堆肥、收集雨水，并种植真正属于本地的原生植物。',
-                tasks: [
-                    { nameEN: 'Weekly Household Compost Log', nameZH: '每周厨余堆肥打卡', pts: 5, requirePhoto: true },
-                    { nameEN: 'Plant Native Shrub or Tree', nameZH: '种植本地树木/灌木（附定位）', pts: 25, requirePhoto: true },
-                    { nameEN: 'Rainwater Barrel Setup', nameZH: '安装雨水收集桶', pts: 20, requirePhoto: true },
-                    { nameEN: 'Garden Harvest Log', nameZH: '阳台/社区花园采摘打卡', pts: 4, requirePhoto: true }
-                ]
-            }
-        ];
-
-        // Master Rewards Catalog (Includes 3 Coastal Conservation Rewards for BCA)
-        const rewardsData = [
-            // EcoEnvisionaries: TanSuo Cafe Collaborations
-            { id: 101, clubId: 'ECO-ENV', subCat: 'cafe', clubName: 'EcoEnvisionaries', titleEN: 'TanSuo Espresso / Americano Voucher', titleZH: '探索咖啡 意式浓缩/美式兑换券', pts: 1500 },
-            { id: 102, clubId: 'ECO-ENV', subCat: 'cafe', clubName: 'EcoEnvisionaries', titleEN: 'Specialty Latte & Bakery Combo', titleZH: '探索咖啡 特调拿铁+烘焙组合', pts: 2800 },
-            { id: 103, clubId: 'ECO-ENV', subCat: 'cafe', clubName: 'EcoEnvisionaries', titleEN: 'Artisan Bread & Croissant Box', titleZH: '探索咖啡 手作酸面包/可颂礼盒', pts: 1200 },
-
-            // EcoEnvisionaries: Pre-Loved Art Supplies
-            { id: 104, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'Wooden Paint Palette & Spatula Set', titleZH: '二手九成新木质调色板与画刀', pts: 1200 },
-            { id: 105, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'Synthetic Detail Brush Set (6 Brushes)', titleZH: '二手细部勾线画笔 6 支组', pts: 1800 },
-            { id: 106, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'A4 Mixed-Media Sketchbook Pad', titleZH: '闲置 A4 综合材料水彩画纸本', pts: 1500 },
-            { id: 107, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'Stretched Canvas Boards (Pack of 2)', titleZH: '未开封油画/丙烯框画板（2张）', pts: 2200 },
-
-            // EcoEnvisionaries: Brainstormed Business Collaborations
-            { id: 108, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: 'Native Wildflower Seed Pack & Bio Pot', titleZH: '本土野花种子包与可降解苗盆（合作花圃）', pts: 1000 },
-            { id: 109, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: 'Beeswax Organic Food Wrap Set (3 Pack)', titleZH: '蜂蜡有机食品保鲜罩 3 件套（零废弃小店）', pts: 1800 },
-            { id: 110, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: 'Stainless Steel Straw & Brush Set', titleZH: '便携不锈钢吸管与专用清洗刷', pts: 1400 },
-            { id: 111, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: '1-Day Regional Public Transit Day Pass', titleZH: '1日公交/地铁通用绿色出行提货券', pts: 2000 },
-
-            // CarbonDisc Exclusive Rewards
-            { id: 201, clubId: 'DISC', subCat: 'club', clubName: 'CarbonDisc', titleEN: 'Custom Stainless Steel Tumbler', titleZH: 'CarbonDisc 联名保温不锈钢随行杯', pts: 4500 },
-            { id: 202, clubId: 'DISC', subCat: 'club', clubName: 'CarbonDisc', titleEN: '5-Ride Commuter Transit Pass', titleZH: '5次公交/共享单车骑行卡', pts: 3500 },
-
-            // Blue Coast Alliance Exclusive Rewards (3 Rewards)
-            { id: 301, clubId: 'BCA', subCat: 'club', clubName: 'Blue Coast Alliance', titleEN: 'Ocean-Bound Recycled Plastic Tote', titleZH: '海洋回收塑料重塑环保手提袋', pts: 3800 },
-            { id: 302, clubId: 'BCA', subCat: 'club', clubName: 'Blue Coast Alliance', titleEN: 'Reef-Safe Mineral Sunscreen Tube', titleZH: '珊瑚礁友好型纯物理防晒霜', pts: 2500 },
-            { id: 303, clubId: 'BCA', subCat: 'club', clubName: 'Blue Coast Alliance', titleEN: 'Heavy-Duty Ocean Mesh Cleanup Bag', titleZH: '海洋防撕裂网状重塑环保沙滩包', pts: 1900 },
-
-            // ArcTerra Exclusive Rewards
-            { id: 401, clubId: 'ARCTERRA', subCat: 'club', clubName: 'ArcTerra', titleEN: 'Heirloom Organic Seed Pack + Bio Pots', titleZH: '有机传家宝蔬菜种子+可降解花盆', pts: 1800 },
-            { id: 402, clubId: 'ARCTERRA', subCat: 'club', clubName: 'ArcTerra', titleEN: 'Farmers Market $10 Fresh Produce Voucher', titleZH: '农夫市集 $10 有机农产品抵用券', pts: 3000 }
-        ];
-
-        function updateUI() {
-            document.getElementById('userPointsDisplay').innerText = points;
-            document.getElementById('marketPointsDisplay').innerText = points;
-            
-            // Single Language Toggle for Navigation Tabs
-            if (currentLang === 'EN') {
-                document.getElementById('tab-home').innerText = 'Home';
-                document.getElementById('tab-clubs').innerText = 'Organizations';
-                document.getElementById('tab-market').innerText = 'Marketplace';
-                document.getElementById('tab-profile').innerText = 'Wallet';
-            } else {
-                document.getElementById('tab-home').innerText = '首页';
-                document.getElementById('tab-clubs').innerText = '组织';
-                document.getElementById('tab-market').innerText = '商城';
-                document.getElementById('tab-profile').innerText = '券包';
-            }
-
-            if (isLoggedIn) {
-                document.getElementById('authHeaderLabel').innerText = currentUserEmail.split('@')[0];
-                document.getElementById('profileUserEmail').innerText = currentUserEmail;
-                document.getElementById('profileClubsCount').innerText = currentLang === 'EN' ? `Member of ${joinedClubs.length} Organization(s)` : `已加入 ${joinedClubs.length} 个组织`;
-                document.getElementById('logoutBtn').classList.remove('hidden');
-            } else {
-                document.getElementById('authHeaderLabel').innerText = currentLang === 'EN' ? 'Sign In' : '登录';
-                document.getElementById('profileUserEmail').innerText = currentLang === 'EN' ? 'Guest User (Not Logged In)' : '访客账号（未登录）';
-                document.getElementById('profileClubsCount').innerText = currentLang === 'EN' ? 'Please sign in to save your points' : '请登录以保存碳积分';
-                document.getElementById('logoutBtn').classList.add('hidden');
-            }
-
-            renderClubs();
-            renderRewards();
-            renderWallet();
-        }
-
-        function triggerTaskAction(pts, actionName, requirePhoto) {
-            if (!isLoggedIn) {
-                alert(currentLang === 'EN' ? 'Please sign in first to earn carbon points!' : '请先登录账号以记录您的碳积分！');
-                openAuthModal();
-                return;
-            }
-
-            if (requirePhoto) {
-                pendingTask = { pts, actionName };
-                document.getElementById('verifyTaskTitle').innerText = actionName;
-                document.getElementById('pendingPtsLabel').innerText = pts;
-                document.getElementById('photoVerifyModal').classList.remove('hidden');
-            } else {
-                earnPoints(pts, actionName);
-            }
-        }
-
-        function previewTaskImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    selectedTaskImageData = e.target.result;
-                    document.getElementById('imagePreview').src = e.target.result;
-                    document.getElementById('imagePreview').classList.remove('hidden');
-                    document.getElementById('uploadPlaceholder').classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function confirmTaskSubmission() {
-            if (!selectedTaskImageData) {
-                alert(currentLang === 'EN' ? 'Please select a photo proof first.' : '请先选择打卡照片。');
-                return;
-            }
-
-            earnPoints(pendingTask.pts, pendingTask.actionName);
-            closePhotoModal();
-        }
-
-        function closePhotoModal() {
-            pendingTask = null;
-            selectedTaskImageData = null;
-            document.getElementById('photoVerifyModal').classList.add('hidden');
-            document.getElementById('imagePreview').classList.add('hidden');
-            document.getElementById('uploadPlaceholder').classList.remove('hidden');
-            document.getElementById('taskImageInput').value = '';
-        }
-
-        function earnPoints(pts, action) {
-            points += pts;
-            alert(currentLang === 'EN' ? `+${pts} Point(s) earned for: ${action}!` : `成功获得 +${pts} 碳积分：${action}！`);
-            updateUI();
-        }
-
-        function joinClubByCode() {
-            if (!isLoggedIn) {
-                alert(currentLang === 'EN' ? 'Please sign in first to join organizations!' : '请先登录账号后再加入组织！');
-                openAuthModal();
-                return;
-            }
-
-            const input = document.getElementById('clubCodeInput').value.trim().toUpperCase();
-            const found = clubsData.find(c => c.code === input);
-            if (found) {
-                if (!joinedClubs.includes(found.id)) {
-                    joinedClubs.push(found.id);
-                    alert(currentLang === 'EN' ? `Successfully joined ${found.name}!` : `成功加入 ${found.name} 组织！`);
-                } else {
-                    alert(currentLang === 'EN' ? 'You are already a member of this organization.' : '您已经是该组织成员。');
-                }
-            } else {
-                alert(currentLang === 'EN' ? 'Invalid organization code. Try TZH888, BCA001, DISC21, or ARC888.' : '邀请码无效，请尝试 TZH888、BCA001、DISC21 或 ARC888');
-            }
-            document.getElementById('clubCodeInput').value = '';
-            updateUI();
-        }
-
-        function redeemItem(id) {
-            if (!isLoggedIn) {
-                alert(currentLang === 'EN' ? 'Please sign in first to redeem rewards!' : '请先登录账号后再兑换商品！');
-                openAuthModal();
-                return;
-            }
-
-            const item = rewardsData.find(r => r.id === id);
-            
-            if (!joinedClubs.includes(item.clubId)) {
-                alert(currentLang === 'EN' ? `Locked reward! You must join ${item.clubName} first.` : `该商品已被锁定！您必须先加入 ${item.clubName} 组织才能兑换。`);
-                return;
-            }
-
-            if (points >= item.pts) {
-                points -= item.pts;
-                const code = 'ECO-' + Math.floor(100000 + Math.random() * 900000);
-                redeemedWallet.push({ title: currentLang === 'EN' ? item.titleEN : item.titleZH, code: code });
-                alert(currentLang === 'EN' ? `Redeemed: ${item.titleEN}! Voucher code: ${code}.` : `兑换成功：${item.titleZH}！券码：${code}。`);
-                updateUI();
-            } else {
-                alert(currentLang === 'EN' ? `Need ${item.pts - points} more points.` : `积分不足，还差 ${item.pts - points} 积分。`);
-            }
-        }
-
-        function renderClubs() {
-            const container = document.getElementById('clubsContainer');
-            container.innerHTML = clubsData.map(club => {
-                const isMember = joinedClubs.includes(club.id);
-                return `
-                    <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between">
-                        <div class="h-32 bg-cover bg-center relative p-4 flex flex-col justify-between" style="background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.8)), url('${club.bannerImg}');">
-                            <div class="flex justify-between items-start">
-                                <span class="text-[10px] font-extrabold bg-white/20 backdrop-blur-md text-white px-2.5 py-0.5 rounded-full uppercase tracking-wider">${club.region}</span>
-                                <span class="text-xs font-bold ${isMember ? 'bg-emerald-500 text-white' : 'bg-white/30 backdrop-blur-md text-white'} px-2.5 py-1 rounded-full">
-                                    ${isMember ? (currentLang === 'EN' ? 'Joined ✓' : '已加入 ✓') : (currentLang === 'EN' ? 'Code Required' : '需要邀请码')}
-                                </span>
-                            </div>
-                            <h4 class="font-extrabold text-xl text-white drop-shadow">${club.name}</h4>
-                        </div>
-
-                        <div class="p-5 flex-1 flex flex-col justify-between">
-                            <p class="text-xs text-slate-600 mb-4">${currentLang === 'EN' ? club.descEN : club.descZH}</p>
-                            
-                            <div class="space-y-1.5 border-t border-slate-100 pt-3">
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">${currentLang === 'EN' ? 'Tasks' : '任务'}</p>
-                                ${club.tasks.map(t => `
-                                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded-xl text-xs">
-                                        <span class="font-medium text-slate-700">${currentLang === 'EN' ? t.nameEN : t.nameZH}</span>
-                                        <button 
-                                            onclick="triggerTaskAction(${t.pts}, '${t.nameEN}',${t.requirePhoto})" 
-                                            ${!isMember ? 'disabled' : ''} 
-                                            class="${isMember ? 'bg-emerald-600 text-white hover:bg-emerald-700' : 'bg-slate-200 text-slate-400 cursor-not-allowed'} px-3 py-1 rounded-lg font-bold transition"
-                                        >
-                                            +${t.pts} Pt
-                                        </button>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderRewards() {
-            const artCafeContainer = document.getElementById('artCafeContainer');
-            const artRewardsContainer = document.getElementById('artRewardsContainer');
-            const ecoBusinessContainer = document.getElementById('ecoBusinessContainer');
-
-            const discContainer = document.getElementById('carbonDiscRewardsContainer');
-            const bcaContainer = document.getElementById('bcaRewardsContainer');
-            const arcTerraContainer = document.getElementById('arcTerraRewardsContainer');
-
-            const renderCard = item => {
-                const isUnlocked = joinedClubs.includes(item.clubId);
-
-                return `
-                    <div class="p-4 rounded-2xl border transition flex flex-col justify-between ${isUnlocked ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-100/70 border-slate-200 opacity-60 grayscale'}">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-[9px] font-bold px-2 py-0.5 rounded ${isUnlocked ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-200 text-slate-500'}">
-                                    ${item.clubName}
-                                </span>
-                                ${!isUnlocked ? '<span class="text-xs">Locked</span>' : ''}
-                            </div>
-                            <h5 class="font-bold text-xs text-slate-800 mb-1">${currentLang === 'EN' ? item.titleEN : item.titleZH}</h5>
-                        </div>
-
-                        <div class="mt-3 pt-2 border-t border-slate-200/60 flex justify-between items-center">
-                            <span class="font-black text-xs ${isUnlocked ? 'text-emerald-600' : 'text-slate-400'}">${item.pts} Pts</span>
-                            <button 
-                                onclick="redeemItem(${item.id})" 
-                                ${!isUnlocked ? 'disabled' : ''} 
-                                class="text-[10px] font-bold px-3 py-1.5 rounded-lg transition ${isUnlocked ? 'bg-slate-900 hover:bg-slate-800 text-white' : 'bg-slate-300 text-slate-500 cursor-not-allowed'}"
-                            >
-                                ${isUnlocked ? (currentLang === 'EN' ? 'Redeem' : '兑换') : (currentLang === 'EN' ? 'Locked' : '未解锁')}
-                            </button>
-                        </div>
-                    </div>
-                `;
-            };
-
-            artCafeContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ECO-ENV' && r.subCat === 'cafe').map(renderCard).join('');
-            artRewardsContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ECO-ENV' && r.subCat === 'art').map(renderCard).join('');
-            ecoBusinessContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ECO-ENV' && r.subCat === 'biz').map(renderCard).join('');
-
-            discContainer.innerHTML = rewardsData.filter(r => r.clubId === 'DISC').map(renderCard).join('');
-            bcaContainer.innerHTML = rewardsData.filter(r => r.clubId === 'BCA').map(renderCard).join('');
-            arcTerraContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ARCTERRA').map(renderCard).join('');
-        }
-
-        function renderWallet() {
-            const list = document.getElementById('walletList');
-            if (redeemedWallet.length === 0) {
-                list.innerHTML = `<p class="text-xs text-slate-400 text-center py-4 border border-dashed border-slate-200 rounded-xl">No redeemed vouchers yet.</p>`;
-            } else {
-                list.innerHTML = redeemedWallet.map(w => `
-                    <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex justify-between items-center text-xs">
-                        <div>
-                            <span class="font-bold text-emerald-900 block">${w.title}</span>
-                        </div>
-                        <span class="font-mono bg-white text-emerald-700 font-bold px-2.5 py-1 rounded border border-emerald-300">${w.code}</span>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function switchTab(tabId) {
-            ['home', 'clubs', 'market', 'profile'].forEach(t => {
-                document.getElementById('view-' + t).classList.add('hidden');
-                document.getElementById('tab-' + t).className = 'tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100';
-            });
-            document.getElementById('view-' + tabId).classList.remove('hidden');
-            document.getElementById('tab-' + tabId).className = 'tab-btn px-4 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold';
-        }
-
-        function openAuthModal() {
-            document.getElementById('authModal').classList.remove('hidden');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
-        }
-
-        function handleLoginSubmit() {
-            const email = document.getElementById('authEmailInput').value.trim();
-            const clubCode = document.getElementById('authClubCodeInput').value.trim().toUpperCase();
-
-            if (!email) {
-                alert(currentLang === 'EN' ? 'Please enter a valid email address.' : '请输入有效的电子邮箱。');
-                return;
-            }
-
-            isLoggedIn = true;
-            currentUserEmail = email;
-
-            if (clubCode) {
-                const found = clubsData.find(c => c.code === clubCode);
-                if (found && !joinedClubs.includes(found.id)) {
-                    joinedClubs.push(found.id);
-                }
-            }
-
-            closeAuthModal();
-            updateUI();
-            alert(currentLang === 'EN' ? `Welcome back, ${email}!` : `欢迎回来，${email}！`);
-        }
-
-        function handleLogout() {
-            isLoggedIn = false;
-            currentUserEmail = 'Guest User';
-            joinedClubs = ['ECO-ENV'];
-            points = 0;
-            updateUI();
-            alert(currentLang === 'EN' ? 'Logged out successfully.' : '已成功退出登录。');
-        }
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'EN' ? 'ZH' : 'EN';
-            document.getElementById('langToggleBtn').innerText = currentLang === 'EN' ? '中文' : 'English';
-            updateUI();
-        }
-
-        // INITIAL LAUNCH
-        updateUI();
-    </script>
+   <!-- GLOBAL NAVIGATION HEADER -->
+   <header class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+       <div class="flex items-center gap-6">
+           <a href="index.html" class="text-xs text-slate-400 hover:text-emerald-400 transition">← Back to Portfolio</a>
+           <span class="font-extrabold text-xl tracking-tight text-emerald-400">
+               EcoTrace
+           </span>
+       </div>
+       <div class="flex items-center gap-3">
+           <div class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-xs font-bold text-emerald-400">
+               <span id="userPointsDisplay">0</span> Pts
+           </div>
+          
+           <button onclick="toggleLanguage()" id="langToggleBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-full border border-slate-700 transition">
+               中文
+           </button>
+           <button onclick="openAuthModal()" id="authHeaderBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-full font-bold transition">
+               <span id="authHeaderLabel">Sign In</span>
+           </button>
+       </div>
+   </header>
+   <!-- SUB-NAVIGATION BAR (Single Language Display) -->
+   <nav class="bg-white border-b border-slate-200 px-6 py-3 flex justify-center gap-2 md:gap-4 text-xs md:text-sm font-semibold">
+       <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-1.5 rounded-xl bg-emerald-50 text-emerald-700">Home</button>
+       <button onclick="switchTab('clubs')" id="tab-clubs" class="tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100">Organizations</button>
+       <button onclick="switchTab('market')" id="tab-market" class="tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100">Marketplace</button>
+       <button onclick="switchTab('profile')" id="tab-profile" class="tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100">Wallet</button>
+   </nav>
+   <!-- MAIN CONTENT CONTAINER -->
+   <main class="max-w-5xl mx-auto px-6 py-8">
+       <!-- AUTH MODAL (Perspective Switcher Removed) -->
+       <div id="authModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+           <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-100 relative">
+               <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+              
+               <h3 id="authModalTitle" class="text-xl font-extrabold text-slate-900 mb-1">Sign In to EcoTrace</h3>
+               <p id="authModalSub" class="text-xs text-slate-500 mb-6">Enter your email and password to access your carbon wallet and organizations.</p>
+               <div class="space-y-4">
+                   <div>
+                       <label class="text-xs font-bold text-slate-700 block mb-1">Email Address</label>
+                       <input type="email" id="authEmailInput" placeholder="user@ecotrace.org" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                   </div>
+                   <div>
+                       <label class="text-xs font-bold text-slate-700 block mb-1">Password</label>
+                       <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                   </div>
+                   <div>
+                       <label class="text-xs font-bold text-slate-700 block mb-1">Optional Invitation / Organization Code</label>
+                       <input type="text" id="authClubCodeInput" placeholder="Enter Organization Code" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                   </div>
+                   <button onclick="handleLoginSubmit()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl transition shadow-md">
+                       Login / Create Account
+                   </button>
+               </div>
+           </div>
+       </div>
+       <!-- PHOTO VERIFICATION UPLOAD MODAL -->
+       <div id="photoVerifyModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+           <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
+               <button onclick="closePhotoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+               <h3 class="text-lg font-extrabold text-slate-900 mb-1" id="verifyTaskTitle">Upload Action Proof</h3>
+               <p class="text-xs text-slate-500 mb-4">Select or drag & drop a photo verifying your action to claim points.</p>
+               <div class="space-y-4">
+                   <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center bg-slate-50 relative hover:border-emerald-500 transition">
+                       <input type="file" id="taskImageInput" accept="image/*" onchange="previewTaskImage(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                       <div id="uploadPlaceholder">
+                           <p class="text-xs font-bold text-slate-700">Click or drag photo here to upload</p>
+                           <p class="text-[10px] text-slate-400 mt-1">Supports JPG, PNG, WEBP</p>
+                       </div>
+                       <img id="imagePreview" class="hidden max-h-48 rounded-xl mx-auto border shadow-sm">
+                   </div>
+                   <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-[11px] text-amber-800">
+                       Notice: Submissions are verified by organization leaders.
+                   </div>
+                   <button onclick="confirmTaskSubmission()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl transition shadow">
+                       Submit Proof & Claim <span id="pendingPtsLabel">0</span> Points
+                   </button>
+               </div>
+           </div>
+       </div>
+       <!-- VIEW 1: HOME -->
+       <section id="view-home" class="space-y-8">
+           <!-- HERO BANNER WITH BACKGROUND IMAGE OVERLAY -->
+           <div class="rounded-3xl p-8 text-white shadow-lg bg-cover bg-center relative overflow-hidden" style="background-image: linear-gradient(to right, rgba(15, 23, 42, 0.82), rgba(13, 148, 136, 0.82)), url('https://images.unsplash.com/photo-1511497584788-876761c119ef?auto=format&fit=crop&w=1200&q=80');">
+               <h1 id="homeTitle" class="text-3xl font-black mb-2 relative z-10">EcoTrace Carbon Incentive Platform</h1>
+               <p id="homeSub" class="text-emerald-100 text-sm max-w-2xl mb-6 relative z-10">Empowering sustainability through micro-action tracking across Shanghai transit and Florida coastal ecosystems.</p>
+              
+               <div class="flex flex-wrap gap-3 relative z-10">
+                   <button onclick="earnPoints(1, 'Daily Eco Check-in')" class="bg-white text-emerald-900 font-bold text-xs px-5 py-3 rounded-xl shadow hover:bg-emerald-50 transition">
+                       ✓ <span id="btnCheckin">Daily Check-in</span>
+                   </button>
+               </div>
+           </div>
+           <!-- NEWS & UPDATES BLOG FEED (CLEAN PROSE) -->
+           <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+               <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                   <div>
+                       <h3 class="text-xl font-black text-slate-900">News</h3>
+                   </div>
+                   <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full uppercase tracking-wider">Updates Feed</span>
+               </div>
+               <!-- Blog Style Pure Text Feed -->
+               <div class="space-y-6" id="homeNewsFeed">
+                   <!-- June 2026 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">June 2026</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Huge news guys—we officially hit 500 kg of CO₂ reduced! Huge shoutout to everyone stepping up! The biggest chunk came from switching to walking, biking, and taking public transit instead of driving, plus actually remembering to turn off the lights and AC whenever we leave homeroom. We also collected & recycled over 500 plastic bottles from beaches, and reusing all those donated art supplies cut down a ton of waste too. Super proud of what we've built together!</li>
+                       </ul>
+                   </div>
+                   <!-- April 2026 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">April 2026</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Pre-Loved Art Supply Drive is live! Drop off any gently used acrylic paints, canvas boards, brushes, or palettes you have lying around. Let's give these extra supplies a second life instead of letting them sit in a closet or go to waste.</li>
+                       </ul>
+                   </div>
+                   <!-- January 2026 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">January 2026</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Welcoming Blue Coast Alliance! Super excited to bring Blue Coast Alliance onto EcoTrace. They’re leading the charge on beach plastic pickups and marine conservation down in Florida—enter their code to unlock their tasks!</li>
+                       </ul>
+                   </div>
+                   <!-- November 2025 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">November 2025</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>ArcTerra is officially on EcoTrace! Welcome to the ArcTerra crew! They’re focusing on home composting, soil health, and native planting. Grab their code to get in on their actions.</li>
+                       </ul>
+                   </div>
+                   <!-- December 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">December 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>New reward partners unlocked! We just teamed up with TanSuo Cafe and Huaiyang Agricultural Specialties. You can now redeem your hard-earned points for coffee, fresh pastries, and local goods right in your voucher wallet.</li>
+                       </ul>
+                   </div>
+                   <!-- September 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">September 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>CarbonDisc has joined EcoTrace! Shoutout to CarbonDisc for coming on board. If you're commuting around Shanghai by metro, riding shared bikes, or doing the Clean Plate challenge, start logging your points under their organization!</li>
+                       </ul>
+                   </div>
+                   <!-- August 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">August 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>EcoTrace is officially live! Started building this platform to give us a real way to track and incentivize our daily green micro-actions. Check out the site, test the tasks, and let’s start accumulating points!</li>
+                       </ul>
+                   </div>
+                   <!-- May 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">May 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Welcome Tan Zhi Heng Co.! Huge shoutout to Tan Zhi Heng Co. for teaming up with us in Shanghai! They’re taking charge on room AC/light shutdowns and daily transit tracking.</li>
+                       </ul>
+                   </div>
+                   <!-- April 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">April 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Long Museum Case Study: Just wrapped up our case study on the Long Museum! We analyzed how large exhibition spaces can cut down on energy use and improve sustainability during exhibitions.</li>
+                           <li>Meeting Notice: Meeting this Wednesday (Apr 24), 16:00–16:50 in Class 10-6 homeroom. See you guys there!</li>
+                           <li>Meeting Notice: Meeting this Wednesday (Apr 10), 16:00–16:50 in Class 10-6 homeroom.</li>
+                       </ul>
+                   </div>
+                   <!-- March 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">March 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Guest Speaker Alert: We’re interviewing Dr. Yu from TU Delft! Join us via Tencent Meeting code <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-emerald-700">882-940-123</code> to learn about sustainable urban infrastructure and ask questions.</li>
+                           <li>Meeting Notice: Meeting this Wednesday (Mar 27), 16:00–16:50 in Class 10-6 homeroom. We’ll be doing member presentations and a Harkness discussion on urban sustainability.</li>
+                           <li>Meeting Notice: Meeting this Wednesday (Mar 13), 16:00–16:50 in Class 10-6 homeroom.</li>
+                       </ul>
+                   </div>
+                   <!-- February 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">February 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Stanford SPICE Share-out: Sharing key takeaways and experience from the Stanford e-China program this week! We’ll follow up with a Harkness discussion on how we can apply these climate strategies locally.</li>
+                           <li>Meeting Notice: Meeting this Wednesday (Feb 28), 16:00–16:50 in Class 10-6 homeroom.</li>
+                           <li>Meeting Notice: Meeting this Wednesday (Feb 14), 16:00–16:50 in Class 10-6 homeroom.</li>
+                       </ul>
+                   </div>
+                   <!-- January 2024 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">January 2024</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Meeting Notice (Jan 31): Biweekly meeting this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
+                           <li>Xinzhuang Industrial Park Invite: EcoEnvisionary was invited to attend the Xinzhuang Industrial Park Carbon Reduction meeting on Jan 21! Representing youth climate initiatives and discussing regional reduction strategies.</li>
+                           <li>Meeting Notice (Jan 17): Biweekly meeting this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
+                           <li>Meeting Notice (Jan 3): Happy New Year! First biweekly meeting of 2024 this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
+                       </ul>
+                   </div>
+                   <!-- December 2023 -->
+                   <div class="space-y-2 border-b border-slate-100 pb-4">
+                       <h4 class="text-base font-extrabold text-slate-900">December 2023</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>Meeting Notice (Dec 20): Biweekly meeting this Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
+                           <li>Saltwater Carbon Battery Lab (Dec 5): Hands-on lab day! We built a DIY saltwater carbon battery using a porous conductive foam structure and carbon powder, then hooked it up to test the voltage and current output.</li>
+                           <li>Meeting Notice (Dec 6): First official biweekly club meeting! Wednesday, 16:00–16:50 in Class 10-6 homeroom.</li>
+                       </ul>
+                   </div>
+                   <!-- November 2023 -->
+                   <div class="space-y-2">
+                       <h4 class="text-base font-extrabold text-slate-900">November 2023</h4>
+                       <ul class="list-disc list-inside text-xs text-slate-700 space-y-2 leading-relaxed">
+                           <li>EcoEnvisionary Club Established! We are officially a club! Pumped to combine real environmental research, hands-on experiments, and actionable campus sustainability projects together.</li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+           <!-- Regional Strategy Highlights -->
+           <div class="grid md:grid-cols-2 gap-6">
+               <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                   <span class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded mb-2 inline-block">Shanghai Hub</span>
+                   <h3 id="shTitle" class="font-bold text-lg mb-2">Urban Commute & Zero-Waste</h3>
+                   <p id="shDesc" class="text-xs text-slate-600">Track metro rides, shared bikes, empty plate clean-up (光盘行动), and bring-your-own-tumbler orders at TanSuo Cafe.</p>
+               </div>
+               <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                   <span class="text-[10px] font-bold bg-cyan-100 text-cyan-700 px-2 py-0.5 rounded mb-2 inline-block">Florida Hub</span>
+                   <h3 id="flTitle" class="font-bold text-lg mb-2">Coastal Marine Conservation</h3>
+                   <p id="flDesc" class="text-xs text-slate-600">Earn points per plastic bottle picked up along coastal shores, bucket cleanups, reef-safe sunscreen, and rainwater harvesting.</p>
+               </div>
+           </div>
+       </section>
+       <!-- VIEW 2: ORGANIZATIONS & TASKS -->
+       <section id="view-clubs" class="hidden space-y-6">
+           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+               <div>
+                   <h3 id="joinClubHeader" class="font-bold text-base">Join an Organization</h3>
+                   <p class="text-xs text-slate-500">Have an invitation code from an organization administrator? Enter it below to unlock local tasks & rewards.</p>
+               </div>
+               <div class="flex gap-2 w-full md:w-auto">
+                   <input type="text" id="clubCodeInput" placeholder="Enter Code" class="bg-slate-100 px-3 py-2 rounded-xl text-xs border border-slate-300 w-full md:w-48">
+                   <button onclick="joinClubByCode()" class="bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-xl hover:bg-slate-800 transition">Join</button>
+               </div>
+           </div>
+           <div class="grid md:grid-cols-2 gap-6" id="clubsContainer"></div>
+       </section>
+       <!-- VIEW 3: MARKETPLACE -->
+       <section id="view-market" class="hidden space-y-8">
+           <div class="bg-slate-900 text-white p-6 rounded-2xl flex justify-between items-center">
+               <div>
+                   <p id="lblMarketBalance" class="text-xs text-slate-400">Available Carbon Points</p>
+                   <p class="text-2xl font-black text-emerald-400"><span id="marketPointsDisplay">0</span> PTS</p>
+               </div>
+               <p id="lblInstantRedeem" class="text-xs text-slate-400">Redeem vouchers for local in-person pickup</p>
+           </div>
+           <!-- EcoEnvisionaries Global Rewards Catalog -->
+           <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+               <div class="border-b border-slate-100 pb-3 flex justify-between items-end">
+                   <div>
+                       <span class="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Default Global Organization</span>
+                       <h3 class="text-lg font-black text-slate-900 mt-1">EcoEnvisionaries Partner Catalog</h3>
+                   </div>
+                   <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Unlocked for All Users ✓</span>
+               </div>
+               <!-- 1. TanSuo Cafe Collaborations -->
+               <div>
+                   <h4 class="text-xs font-bold text-slate-700 mb-2">TanSuo Cafe Vouchers & Pastries</h4>
+                   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="artCafeContainer"></div>
+               </div>
+               <!-- 2. Pre-Loved Art Supplies -->
+               <div>
+                   <h4 class="text-xs font-bold text-slate-700 mb-2">Pre-Loved Art Supplies</h4>
+                   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="artRewardsContainer"></div>
+               </div>
+               <!-- 3. Brainstormed Eco Business Collaborations -->
+               <div>
+                   <h4 class="text-xs font-bold text-slate-700 mb-2">Local Business Eco Collaborations</h4>
+                   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="ecoBusinessContainer"></div>
+               </div>
+           </div>
+           <!-- CarbonDisc Exclusive Rewards -->
+           <div>
+               <h3 class="text-base font-bold text-slate-900 mb-1">CarbonDisc Commuter Perks</h3>
+               <p class="text-xs text-slate-500 mb-3">Exclusive rewards for <b>CarbonDisc</b> members</p>
+               <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="carbonDiscRewardsContainer"></div>
+           </div>
+           <!-- Blue Coast Alliance Exclusive Rewards -->
+           <div>
+               <h3 class="text-base font-bold text-slate-900 mb-1">Coastal Conservation Rewards</h3>
+               <p class="text-xs text-slate-500 mb-3">Exclusive rewards for <b>Blue Coast Alliance</b> members</p>
+               <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="bcaRewardsContainer"></div>
+           </div>
+           <!-- ArcTerra Exclusive Rewards -->
+           <div>
+               <h3 class="text-base font-bold text-slate-900 mb-1">Terrestrial Ecology & Soil Rewards</h3>
+               <p class="text-xs text-slate-500 mb-3">Exclusive rewards for <b>ArcTerra</b> members</p>
+               <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="arcTerraRewardsContainer"></div>
+           </div>
+       </section>
+       <!-- VIEW 4: PROFILE & WALLET -->
+       <section id="view-profile" class="hidden max-w-xl mx-auto space-y-6">
+           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+               <div class="flex items-center gap-4">
+                   <div class="w-12 h-12 bg-emerald-100 text-emerald-700 font-bold rounded-full flex items-center justify-center text-sm">
+                       User
+                   </div>
+                   <div>
+                       <h3 id="profileUserEmail" class="font-bold text-sm text-slate-900">Guest User</h3>
+                       <p id="profileClubsCount" class="text-xs text-slate-500">Not signed in</p>
+                   </div>
+               </div>
+               <button onclick="handleLogout()" id="logoutBtn" class="hidden text-xs font-bold text-red-500 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition">
+                   Logout
+               </button>
+           </div>
+           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+               <h4 id="walletTitle" class="font-bold text-sm mb-3">My Voucher Wallet</h4>
+               <div id="walletList" class="space-y-2">
+                   <p class="text-xs text-slate-400 text-center py-4 border border-dashed border-slate-200 rounded-xl">No redeemed vouchers yet. Complete tasks & earn points to unlock rewards!</p>
+               </div>
+           </div>
+       </section>
+   </main>
+   <!-- JAVASCRIPT LOGIC & LOCAL STATE -->
+   <script>
+       let currentLang = 'EN';
+      
+       // DEFAULT STATE: NOT LOGGED IN
+       let isLoggedIn = false;
+       let currentUserEmail = 'Guest User';
+       let points = 0;
+       let joinedClubs = ['ECO-ENV'];
+       let redeemedWallet = [];
+       let pendingTask = null;
+       let selectedTaskImageData = null;
+       // Master Organizations Directory (5 distinct authentic voices)
+       const clubsData = [
+           {
+               id: 'ECO-ENV',
+               name: 'EcoEnvisionaries',
+               code: 'GLOBAL',
+               region: 'Global',
+               bannerImg: 'images/EE2.JPG',
+               descEN: 'Hey everyone! We are the founding crew behind EcoTrace. We blend hands-on science experiments, climate data, and campus initiatives so anyone anywhere can make a measurable dent in emissions.',
+               descZH: '大家好！我们是发起 EcoTrace 的创始团队。我们融合动手科学实验、气候数据与校园低碳倡议，让每个人都能记录可衡量的减排成果。',
+               tasks: [
+                   { nameEN: 'Daily Eco Check-in', nameZH: '每日低碳签到', pts: 1, requirePhoto: false },
+                   { nameEN: 'Unsubscribe 10 Promo Emails', nameZH: '清理10封营销推广邮件', pts: 5, requirePhoto: true }
+               ]
+           },
+           {
+               id: 'DISC',
+               name: 'Carbon Disc',
+               code: 'DISC21',
+               region: 'Shanghai',
+               bannerImg: 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=800&q=80',
+               descEN: 'Shanghai hustle hits different when you do it low-carbon! We are all about crushing daily commutes on metros, dodging traffic on shared bikes, and flexing clean empty plates after dinner.',
+               descZH: '低碳出行的上海节奏！我们专注于地铁公交高效通勤、共享单车穿街过巷，以及餐后炫出干净的“光盘”打卡！',
+               tasks: [
+                   { nameEN: 'Metro or Bus Commute', nameZH: '乘坐地铁或公交1次', pts: 2, requirePhoto: true },
+                   { nameEN: 'Shared Bike Ride (>1 km)', nameZH: '共享单车骑行>1公里', pts: 2, requirePhoto: true },
+                   { nameEN: 'Clean Plate Photo Proof (光盘行动)', nameZH: '光盘行动拍照打卡', pts: 2, requirePhoto: true },
+                   { nameEN: 'BYO Tumbler at TanSuo Cafe', nameZH: '自带杯至探索咖啡消费', pts: 4, requirePhoto: true }
+               ]
+           },
+           {
+               id: 'TZH',
+               name: 'Tan Zhi Heng Co.',
+               code: 'TZH888',
+               region: 'Shanghai',
+               bannerImg: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+               descEN: 'Welcome to Tan Zhi Heng Co.! We are a focused team in Shanghai taking direct operational action on energy discipline—from shutting down ACs and lights in empty rooms to mastering zero-emission commutes.',
+               descZH: '欢迎来到 Tan Zhi Heng Co.！我们是一支注重落地执行的上海团队，专注节能细节：离开教室必关空调电灯，贯彻日常零碳出行。',
+               tasks: [
+                   { nameEN: 'Turn Off Lights / AC When Leaving Room', nameZH: '离室关闭电灯与空调', pts: 3, requirePhoto: true },
+                   { nameEN: 'Metro or Bus Commute', nameZH: '乘坐地铁或公交1次', pts: 2, requirePhoto: true },
+                   { nameEN: 'Shared Bike Ride (>1 km)', nameZH: '共享单车骑行>1公里', pts: 2, requirePhoto: true }
+               ]
+           },
+           {
+               id: 'BCA',
+               name: 'Blue Coast Alliance',
+               code: 'BCA001',
+               region: 'Florida',
+               bannerImg: 'images/Coast1.jpg',
+               descEN: 'If you love the ocean as much as we do, welcome home! We are out on Florida shores picking up ocean-bound plastics, switching to reef-safe sunscreen, and keeping our coastlines clean.',
+               descZH: '如果你和我们一样热爱大海，欢迎加入！我们在佛罗里达海岸清理塑料垃圾、推广珊瑚礁友好防晒，守护我们的蔚蓝海岸。',
+               tasks: [
+                   { nameEN: 'Beach Plastic Bottle Collection (Per Bottle)', nameZH: '海滩捡拾塑料瓶（每瓶）', pts: 2, requirePhoto: true },
+                   { nameEN: 'Marine Debris Bucket Challenge (5 kg)', nameZH: '清理 5kg 沿海垃圾桶', pts: 25, requirePhoto: true },
+                   { nameEN: 'Reef-Safe Sunscreen Use', nameZH: '使用海洋友好型防晒霜打卡', pts: 3, requirePhoto: true },
+                   { nameEN: 'Invasive Plant Removal (1 hr)', nameZH: '清除海岸外来入侵植物（1小时）', pts: 15, requirePhoto: true }
+               ]
+           },
+           {
+               id: 'ARCTERRA',
+               name: 'ArcTerra',
+               code: 'ARC888',
+               region: 'Global',
+               bannerImg: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=800&q=80',
+               descEN: 'Dirt nerds unite! We are obsessed with soil health, turning kitchen scraps into rich compost, harvesting rainwater, and planting native species that actually belong here.',
+               descZH: '土壤爱好者集结！我们热衷于改善土壤健康、将厨余垃圾转化为优质堆肥、收集雨水，并种植真正属于本地的原生植物。',
+               tasks: [
+                   { nameEN: 'Weekly Household Compost Log', nameZH: '每周厨余堆肥打卡', pts: 5, requirePhoto: true },
+                   { nameEN: 'Plant Native Shrub or Tree', nameZH: '种植本地树木/灌木（附定位）', pts: 25, requirePhoto: true },
+                   { nameEN: 'Rainwater Barrel Setup', nameZH: '安装雨水收集桶', pts: 20, requirePhoto: true },
+                   { nameEN: 'Garden Harvest Log', nameZH: '阳台/社区花园采摘打卡', pts: 4, requirePhoto: true }
+               ]
+           }
+       ];
+       // Master Rewards Catalog (Includes 3 Coastal Conservation Rewards for BCA)
+       const rewardsData = [
+           // EcoEnvisionaries: TanSuo Cafe Collaborations
+           { id: 101, clubId: 'ECO-ENV', subCat: 'cafe', clubName: 'EcoEnvisionaries', titleEN: 'TanSuo Espresso / Americano Voucher', titleZH: '探索咖啡 意式浓缩/美式兑换券', pts: 1500 },
+           { id: 102, clubId: 'ECO-ENV', subCat: 'cafe', clubName: 'EcoEnvisionaries', titleEN: 'Specialty Latte & Bakery Combo', titleZH: '探索咖啡 特调拿铁+烘焙组合', pts: 2800 },
+           { id: 103, clubId: 'ECO-ENV', subCat: 'cafe', clubName: 'EcoEnvisionaries', titleEN: 'Artisan Bread & Croissant Box', titleZH: '探索咖啡 手作酸面包/可颂礼盒', pts: 1200 },
+           // EcoEnvisionaries: Pre-Loved Art Supplies
+           { id: 104, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'Wooden Paint Palette & Spatula Set', titleZH: '二手九成新木质调色板与画刀', pts: 1200 },
+           { id: 105, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'Synthetic Detail Brush Set (6 Brushes)', titleZH: '二手细部勾线画笔 6 支组', pts: 1800 },
+           { id: 106, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'A4 Mixed-Media Sketchbook Pad', titleZH: '闲置 A4 综合材料水彩画纸本', pts: 1500 },
+           { id: 107, clubId: 'ECO-ENV', subCat: 'art', clubName: 'EcoEnvisionaries', titleEN: 'Stretched Canvas Boards (Pack of 2)', titleZH: '未开封油画/丙烯框画板（2张）', pts: 2200 },
+           // EcoEnvisionaries: Brainstormed Business Collaborations
+           { id: 108, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: 'Native Wildflower Seed Pack & Bio Pot', titleZH: '本土野花种子包与可降解苗盆（合作花圃）', pts: 1000 },
+           { id: 109, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: 'Beeswax Organic Food Wrap Set (3 Pack)', titleZH: '蜂蜡有机食品保鲜罩 3 件套（零废弃小店）', pts: 1800 },
+           { id: 110, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: 'Stainless Steel Straw & Brush Set', titleZH: '便携不锈钢吸管与专用清洗刷', pts: 1400 },
+           { id: 111, clubId: 'ECO-ENV', subCat: 'biz', clubName: 'EcoEnvisionaries', titleEN: '1-Day Regional Public Transit Day Pass', titleZH: '1日公交/地铁通用绿色出行提货券', pts: 2000 },
+           // CarbonDisc Exclusive Rewards
+           { id: 201, clubId: 'DISC', subCat: 'club', clubName: 'CarbonDisc', titleEN: 'Custom Stainless Steel Tumbler', titleZH: 'CarbonDisc 联名保温不锈钢随行杯', pts: 4500 },
+           { id: 202, clubId: 'DISC', subCat: 'club', clubName: 'CarbonDisc', titleEN: '5-Ride Commuter Transit Pass', titleZH: '5次公交/共享单车骑行卡', pts: 3500 },
+           // Blue Coast Alliance Exclusive Rewards (3 Rewards)
+           { id: 301, clubId: 'BCA', subCat: 'club', clubName: 'Blue Coast Alliance', titleEN: 'Ocean-Bound Recycled Plastic Tote', titleZH: '海洋回收塑料重塑环保手提袋', pts: 3800 },
+           { id: 302, clubId: 'BCA', subCat: 'club', clubName: 'Blue Coast Alliance', titleEN: 'Reef-Safe Mineral Sunscreen Tube', titleZH: '珊瑚礁友好型纯物理防晒霜', pts: 2500 },
+           { id: 303, clubId: 'BCA', subCat: 'club', clubName: 'Blue Coast Alliance', titleEN: 'Heavy-Duty Ocean Mesh Cleanup Bag', titleZH: '海洋防撕裂网状重塑环保沙滩包', pts: 1900 },
+           // ArcTerra Exclusive Rewards
+           { id: 401, clubId: 'ARCTERRA', subCat: 'club', clubName: 'ArcTerra', titleEN: 'Heirloom Organic Seed Pack + Bio Pots', titleZH: '有机传家宝蔬菜种子+可降解花盆', pts: 1800 },
+           { id: 402, clubId: 'ARCTERRA', subCat: 'club', clubName: 'ArcTerra', titleEN: 'Farmers Market $10 Fresh Produce Voucher', titleZH: '农夫市集 $10 有机农产品抵用券', pts: 3000 }
+       ];
+       function updateUI() {
+           document.getElementById('userPointsDisplay').innerText = points;
+           document.getElementById('marketPointsDisplay').innerText = points;
+          
+           // Single Language Toggle for Navigation Tabs
+           if (currentLang === 'EN') {
+               document.getElementById('tab-home').innerText = 'Home';
+               document.getElementById('tab-clubs').innerText = 'Organizations';
+               document.getElementById('tab-market').innerText = 'Marketplace';
+               document.getElementById('tab-profile').innerText = 'Wallet';
+           } else {
+               document.getElementById('tab-home').innerText = '首页';
+               document.getElementById('tab-clubs').innerText = '组织';
+               document.getElementById('tab-market').innerText = '商城';
+               document.getElementById('tab-profile').innerText = '券包';
+           }
+           if (isLoggedIn) {
+               document.getElementById('authHeaderLabel').innerText = currentUserEmail.split('@')[0];
+               document.getElementById('profileUserEmail').innerText = currentUserEmail;
+               document.getElementById('profileClubsCount').innerText = currentLang === 'EN' ? `Member of ${joinedClubs.length} Organization(s)` : `已加入 ${joinedClubs.length} 个组织`;
+               document.getElementById('logoutBtn').classList.remove('hidden');
+           } else {
+               document.getElementById('authHeaderLabel').innerText = currentLang === 'EN' ? 'Sign In' : '登录';
+               document.getElementById('profileUserEmail').innerText = currentLang === 'EN' ? 'Guest User (Not Logged In)' : '访客账号（未登录）';
+               document.getElementById('profileClubsCount').innerText = currentLang === 'EN' ? 'Please sign in to save your points' : '请登录以保存碳积分';
+               document.getElementById('logoutBtn').classList.add('hidden');
+           }
+           renderClubs();
+           renderRewards();
+           renderWallet();
+       }
+       function triggerTaskAction(pts, actionName, requirePhoto) {
+           if (!isLoggedIn) {
+               alert(currentLang === 'EN' ? 'Please sign in first to earn carbon points!' : '请先登录账号以记录您的碳积分！');
+               openAuthModal();
+               return;
+           }
+           if (requirePhoto) {
+               pendingTask = { pts, actionName };
+               document.getElementById('verifyTaskTitle').innerText = actionName;
+               document.getElementById('pendingPtsLabel').innerText = pts;
+               document.getElementById('photoVerifyModal').classList.remove('hidden');
+           } else {
+               earnPoints(pts, actionName);
+           }
+       }
+       function previewTaskImage(event) {
+           const file = event.target.files[0];
+           if (file) {
+               const reader = new FileReader();
+               reader.onload = function(e) {
+                   selectedTaskImageData = e.target.result;
+                   document.getElementById('imagePreview').src = e.target.result;
+                   document.getElementById('imagePreview').classList.remove('hidden');
+                   document.getElementById('uploadPlaceholder').classList.add('hidden');
+               }
+               reader.readAsDataURL(file);
+           }
+       }
+       function confirmTaskSubmission() {
+           if (!selectedTaskImageData) {
+               alert(currentLang === 'EN' ? 'Please select a photo proof first.' : '请先选择打卡照片。');
+               return;
+           }
+           earnPoints(pendingTask.pts, pendingTask.actionName);
+           closePhotoModal();
+       }
+       function closePhotoModal() {
+           pendingTask = null;
+           selectedTaskImageData = null;
+           document.getElementById('photoVerifyModal').classList.add('hidden');
+           document.getElementById('imagePreview').classList.add('hidden');
+           document.getElementById('uploadPlaceholder').classList.remove('hidden');
+           document.getElementById('taskImageInput').value = '';
+       }
+       function earnPoints(pts, action) {
+           points += pts;
+           alert(currentLang === 'EN' ? `+${pts} Point(s) earned for: ${action}!` : `成功获得 +${pts} 碳积分：${action}！`);
+           updateUI();
+       }
+       function joinClubByCode() {
+           if (!isLoggedIn) {
+               alert(currentLang === 'EN' ? 'Please sign in first to join organizations!' : '请先登录账号后再加入组织！');
+               openAuthModal();
+               return;
+           }
+           const input = document.getElementById('clubCodeInput').value.trim().toUpperCase();
+           const found = clubsData.find(c => c.code === input);
+           if (found) {
+               if (!joinedClubs.includes(found.id)) {
+                   joinedClubs.push(found.id);
+                   alert(currentLang === 'EN' ? `Successfully joined ${found.name}!` : `成功加入 ${found.name} 组织！`);
+               } else {
+                   alert(currentLang === 'EN' ? 'You are already a member of this organization.' : '您已经是该组织成员。');
+               }
+           } else {
+               alert(currentLang === 'EN' ? 'Invalid organization code. Try TZH888, BCA001, DISC21, or ARC888.' : '邀请码无效，请尝试 TZH888、BCA001、DISC21 或 ARC888');
+           }
+           document.getElementById('clubCodeInput').value = '';
+           updateUI();
+       }
+       function redeemItem(id) {
+           if (!isLoggedIn) {
+               alert(currentLang === 'EN' ? 'Please sign in first to redeem rewards!' : '请先登录账号后再兑换商品！');
+               openAuthModal();
+               return;
+           }
+           const item = rewardsData.find(r => r.id === id);
+          
+           if (!joinedClubs.includes(item.clubId)) {
+               alert(currentLang === 'EN' ? `Locked reward! You must join ${item.clubName} first.` : `该商品已被锁定！您必须先加入 ${item.clubName} 组织才能兑换。`);
+               return;
+           }
+           if (points >= item.pts) {
+               points -= item.pts;
+               const code = 'ECO-' + Math.floor(100000 + Math.random() * 900000);
+               redeemedWallet.push({ title: currentLang === 'EN' ? item.titleEN : item.titleZH, code: code });
+               alert(currentLang === 'EN' ? `Redeemed: ${item.titleEN}! Voucher code: ${code}.` : `兑换成功：${item.titleZH}！券码：${code}。`);
+               updateUI();
+           } else {
+               alert(currentLang === 'EN' ? `Need ${item.pts - points} more points.` : `积分不足，还差 ${item.pts - points} 积分。`);
+           }
+       }
+       function renderClubs() {
+           const container = document.getElementById('clubsContainer');
+           container.innerHTML = clubsData.map(club => {
+               const isMember = joinedClubs.includes(club.id);
+               return `
+                   <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between">
+                       <div class="h-32 bg-cover bg-center relative p-4 flex flex-col justify-between" style="background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.8)), url('${club.bannerImg}');">
+                           <div class="flex justify-between items-start">
+                               <span class="text-[10px] font-extrabold bg-white/20 backdrop-blur-md text-white px-2.5 py-0.5 rounded-full uppercase tracking-wider">${club.region}</span>
+                               <span class="text-xs font-bold ${isMember ? 'bg-emerald-500 text-white' : 'bg-white/30 backdrop-blur-md text-white'} px-2.5 py-1 rounded-full">
+                                   ${isMember ? (currentLang === 'EN' ? 'Joined ✓' : '已加入 ✓') : (currentLang === 'EN' ? 'Code Required' : '需要邀请码')}
+                               </span>
+                           </div>
+                           <h4 class="font-extrabold text-xl text-white drop-shadow">${club.name}</h4>
+                       </div>
+                       <div class="p-5 flex-1 flex flex-col justify-between">
+                           <p class="text-xs text-slate-600 mb-4">${currentLang === 'EN' ? club.descEN : club.descZH}</p>
+                          
+                           <div class="space-y-1.5 border-t border-slate-100 pt-3">
+                               <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">${currentLang === 'EN' ? 'Tasks' : '任务'}</p>
+                               ${club.tasks.map(t => `
+                                   <div class="flex justify-between items-center bg-slate-50 p-2 rounded-xl text-xs">
+                                       <span class="font-medium text-slate-700">${currentLang === 'EN' ? t.nameEN : t.nameZH}</span>
+                                       <button
+                                           onclick="triggerTaskAction(${t.pts}, '${t.nameEN}',${t.requirePhoto})"
+                                           ${!isMember ? 'disabled' : ''}
+                                           class="${isMember ? 'bg-emerald-600 text-white hover:bg-emerald-700' : 'bg-slate-200 text-slate-400 cursor-not-allowed'} px-3 py-1 rounded-lg font-bold transition"
+                                       >
+                                           +${t.pts} Pt
+                                       </button>
+                                   </div>
+                               `).join('')}
+                           </div>
+                       </div>
+                   </div>
+               `;
+           }).join('');
+       }
+       function renderRewards() {
+           const artCafeContainer = document.getElementById('artCafeContainer');
+           const artRewardsContainer = document.getElementById('artRewardsContainer');
+           const ecoBusinessContainer = document.getElementById('ecoBusinessContainer');
+           const discContainer = document.getElementById('carbonDiscRewardsContainer');
+           const bcaContainer = document.getElementById('bcaRewardsContainer');
+           const arcTerraContainer = document.getElementById('arcTerraRewardsContainer');
+           const renderCard = item => {
+               const isUnlocked = joinedClubs.includes(item.clubId);
+               return `
+                   <div class="p-4 rounded-2xl border transition flex flex-col justify-between ${isUnlocked ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-100/70 border-slate-200 opacity-60 grayscale'}">
+                       <div>
+                           <div class="flex justify-between items-center mb-2">
+                               <span class="text-[9px] font-bold px-2 py-0.5 rounded ${isUnlocked ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-200 text-slate-500'}">
+                                   ${item.clubName}
+                               </span>
+                               ${!isUnlocked ? '<span class="text-xs">Locked</span>' : ''}
+                           </div>
+                           <h5 class="font-bold text-xs text-slate-800 mb-1">${currentLang === 'EN' ? item.titleEN : item.titleZH}</h5>
+                       </div>
+                       <div class="mt-3 pt-2 border-t border-slate-200/60 flex justify-between items-center">
+                           <span class="font-black text-xs ${isUnlocked ? 'text-emerald-600' : 'text-slate-400'}">${item.pts} Pts</span>
+                           <button
+                               onclick="redeemItem(${item.id})"
+                               ${!isUnlocked ? 'disabled' : ''}
+                               class="text-[10px] font-bold px-3 py-1.5 rounded-lg transition ${isUnlocked ? 'bg-slate-900 hover:bg-slate-800 text-white' : 'bg-slate-300 text-slate-500 cursor-not-allowed'}"
+                           >
+                               ${isUnlocked ? (currentLang === 'EN' ? 'Redeem' : '兑换') : (currentLang === 'EN' ? 'Locked' : '未解锁')}
+                           </button>
+                       </div>
+                   </div>
+               `;
+           };
+           artCafeContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ECO-ENV' && r.subCat === 'cafe').map(renderCard).join('');
+           artRewardsContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ECO-ENV' && r.subCat === 'art').map(renderCard).join('');
+           ecoBusinessContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ECO-ENV' && r.subCat === 'biz').map(renderCard).join('');
+           discContainer.innerHTML = rewardsData.filter(r => r.clubId === 'DISC').map(renderCard).join('');
+           bcaContainer.innerHTML = rewardsData.filter(r => r.clubId === 'BCA').map(renderCard).join('');
+           arcTerraContainer.innerHTML = rewardsData.filter(r => r.clubId === 'ARCTERRA').map(renderCard).join('');
+       }
+       function renderWallet() {
+           const list = document.getElementById('walletList');
+           if (redeemedWallet.length === 0) {
+               list.innerHTML = `<p class="text-xs text-slate-400 text-center py-4 border border-dashed border-slate-200 rounded-xl">No redeemed vouchers yet.</p>`;
+           } else {
+               list.innerHTML = redeemedWallet.map(w => `
+                   <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex justify-between items-center text-xs">
+                       <div>
+                           <span class="font-bold text-emerald-900 block">${w.title}</span>
+                       </div>
+                       <span class="font-mono bg-white text-emerald-700 font-bold px-2.5 py-1 rounded border border-emerald-300">${w.code}</span>
+                   </div>
+               `).join('');
+           }
+       }
+       function switchTab(tabId) {
+           ['home', 'clubs', 'market', 'profile'].forEach(t => {
+               document.getElementById('view-' + t).classList.add('hidden');
+               document.getElementById('tab-' + t).className = 'tab-btn px-4 py-1.5 rounded-xl text-slate-600 hover:bg-slate-100';
+           });
+           document.getElementById('view-' + tabId).classList.remove('hidden');
+           document.getElementById('tab-' + tabId).className = 'tab-btn px-4 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold';
+       }
+       function openAuthModal() {
+           document.getElementById('authModal').classList.remove('hidden');
+       }
+       function closeAuthModal() {
+           document.getElementById('authModal').classList.add('hidden');
+       }
+       function handleLoginSubmit() {
+           const email = document.getElementById('authEmailInput').value.trim();
+           const clubCode = document.getElementById('authClubCodeInput').value.trim().toUpperCase();
+           if (!email) {
+               alert(currentLang === 'EN' ? 'Please enter a valid email address.' : '请输入有效的电子邮箱。');
+               return;
+           }
+           isLoggedIn = true;
+           currentUserEmail = email;
+           if (clubCode) {
+               const found = clubsData.find(c => c.code === clubCode);
+               if (found && !joinedClubs.includes(found.id)) {
+                   joinedClubs.push(found.id);
+               }
+           }
+           closeAuthModal();
+           updateUI();
+           alert(currentLang === 'EN' ? `Welcome back, ${email}!` : `欢迎回来，${email}！`);
+       }
+       function handleLogout() {
+           isLoggedIn = false;
+           currentUserEmail = 'Guest User';
+           joinedClubs = ['ECO-ENV'];
+           points = 0;
+           updateUI();
+           alert(currentLang === 'EN' ? 'Logged out successfully.' : '已成功退出登录。');
+       }
+       function toggleLanguage() {
+           currentLang = currentLang === 'EN' ? 'ZH' : 'EN';
+           document.getElementById('langToggleBtn').innerText = currentLang === 'EN' ? '中文' : 'English';
+           updateUI();
+       }
+       // INITIAL LAUNCH
+       updateUI();
+   </script>
 </body>
 </html>

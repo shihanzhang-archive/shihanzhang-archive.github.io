@@ -8,8 +8,8 @@
     <style>
         .media-container {
             max-width: 850px;
-            margin: 4rem auto;
-            padding-bottom: 5rem;
+            margin: 3rem auto;
+            padding-bottom: 4rem;
             border-bottom: 1px solid #eeeeee;
         }
 
@@ -33,7 +33,6 @@
             margin-bottom: 2rem;
         }
 
-        /* Responsive Video Wrapper */
         .video-wrapper {
             position: relative;
             width: 100%;
@@ -60,12 +59,11 @@
             text-align: justify;
         }
 
-        /* --- Novel Excerpt / Book Typography Styling --- */
         .book-pitch-box {
             background-color: #fcfcfc;
             border: 1px solid #f0f0f0;
             padding: 2.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .synopsis-title {
@@ -76,108 +74,109 @@
             color: #111111;
         }
 
-        .excerpt-window {
-            background: #ffffff;
-            border: 1px solid #eaeaea;
-            padding: 3rem;
-            max-height: 500px;
-            overflow-y: scroll; /* Creates a clean scrollable book preview window */
-            font-family: "Times New Roman", Times, Georgia, serif;
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: #111111;
-            box-shadow: inset 0 4px 12px rgba(0,0,0,0.02);
-        }
-
-        .excerpt-window p {
-            margin-bottom: 1.5rem;
-            text-indent: 2rem; /* Classic book paragraph indent */
-        }
-
-        .excerpt-window p:first-of-type {
-            text-indent: 0; /* Traditional first paragraph drop-style look */
-        }
-
-        .amazon-btn {
-            display: inline-block;
+        .link-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
             margin-top: 1.5rem;
-            padding: 0.8rem 1.8rem;
+        }
+
+        .btn-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
             background-color: #111111;
             color: #ffffff;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 700;
             letter-spacing: 0.05em;
             text-transform: uppercase;
             transition: background 0.2s;
         }
 
-        .amazon-btn:hover {
-            background-color: #444444;
+        .btn-link:hover {
+            background-color: #333333;
+        }
+
+        .btn-secondary-link {
+            background-color: transparent;
+            color: #111111;
+            border: 1px solid #111111;
+        }
+
+        .btn-secondary-link:hover {
+            background-color: #f5f5f5;
         }
 
         @media (max-width: 768px) {
-            .excerpt-window { padding: 1.5rem; }
             .media-description { text-align: left; }
+            .book-pitch-box { padding: 1.5rem; }
+            .link-group { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-
-    <section class="hero-section" style="min-height: auto; padding-bottom: 3rem;">
+    <section class="hero-section" style="min-height: auto; padding-bottom: 2rem;">
         <nav>
             <h1 class="site-title"><a href="index.html" style="color: white; text-decoration: none;">Shihan "Corrine" Zhang</a></h1>
             <div class="nav-links">
                 <a href="gallery.html">The Gallery</a>
                 <a href="research.html">Research</a>
-                <a href="film-writing.html">Film & Writing</a>
+                <a href="film-writing.html" class="active">Film & Writing</a>
                 <a href="praxis.html">PRAXIS</a>
-                <a href="forums.html">Forums</a>
+                <a href="ecotrace.html">EcoTrace</a>
                 <a href="recognitions.html">Recognitions</a>
             </div>
         </nav>
     </section>
 
-    <section class="content-section">
-        <h2 class="section-label">Selected Documentaries & Manuscripts</h2>
+    <section class="content-section" style="padding-top: 1rem;">
+        <h2 class="section-label" style="max-width: 850px; margin: 0 auto 2rem auto;">Documentary & Literary Works</h2>
 
+        <!-- Documentary: Shifting Winds, Enduring Roots -->
         <div class="media-container">
-            <h3 class="media-title">The Seven-Second Myth</h3>
-            <div class="media-meta">Documentary Film // Running Time: 30:00 // Directed by Shihan Zhang</div>
-            
+            <h3 class="media-title">Shifting Winds, Enduring Roots</h3>
+            <div class="media-meta">Producer & Director: Shihan Zhang</div>
+
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/4N1wOoUPsE4" allowfullscreen></iframe>
             </div>
 
             <div class="media-description">
                 <p>
-                    An archival cinematic inquiry exploring narrative fragmentation, geographical memory, and cultural preservation strategies across generational lines. This visual documentary captures structural motifs while interrogating themes of relocation and home.
+                    After moving to the United States, I unexpectedly connected with an aunt I had never met. We came from the same village and shared only a distant blood tie, yet a Thanksgiving invitation made us feel like family. It left me wondering: what keeps us bound across oceans and generations?
+
+                    This film follows that question through three generations of Hakka women: in my grandmother’s courtyard house in China, at my aunt’s dining table in America, and in my cousin’s contemporary life. The Hakka dialect is fading and clan ties are weakening, yet being Hakka has never meant preserving a fixed tradition. It is a story of migration and adaptation, of people who leave home, build new lives, and carry forward family, resilience, and belonging.
+
+                    Rather than a nostalgic portrait, the film asks what is lost, what changes, and what quietly remains. I’m drawn to the subtler forms of inheritance found in everyday moments: how we care for family, adapt to displacement, and carry home with us.
+
+                    It is one family’s story, but I hope it speaks to anyone searching for home and the invisible threads that connect us.
                 </p>
+            </div>
+
+            <div class="link-group">
+                <a href="https://youtu.be/4N1wOoUPsE4?si=ln-ww_knngo7ohgF" class="btn-link" target="_blank">Watch on YouTube</a>
+                <a href="https://weibo.com/8257492502/5331207889879415" class="btn-link btn-secondary-link" target="_blank">Watch on Weibo</a>
             </div>
         </div>
 
+        <!-- Novel: The Silver Cup -->
         <div class="media-container">
-            <h3 class="media-title">The Hollow Apron</h3>
-            <div class="media-meta">Manuscript Excerpt // Detective Fiction // Pending Publication</div>
-            
+            <h3 class="media-title">The Silver Cup</h3>
+            <div class="media-meta">ASIN: B0HLGPN6BG</div>
+
             <div class="book-pitch-box">
                 <h4 class="synopsis-title">Synopsis</h4>
                 <p class="media-description">
-                    Set against a backdrop of shifting architectural landscapes and hidden ancestral histories, this detective noir follows an intricate investigation into domestic patterns, systemic erasure, and silent structural secrets hidden within plain sight. 
+                    The Hakka-Punti Clan Wars have left the circular fortress-home diminished and thirty-one men dead. Arriving into this world of careful silences is Katharine Meurer, a German missionary physician whose rigorous training meets a community held together by women. What develops between Katharine and Wenxiu, the tulou's spirit medium, is a relationship built in part Hakka, part botanical Latin, and part unnamable language. Told across fifteen chapters and two long poems, <em>The Silver Cup</em> is a work of historical literary fiction about the knowledge women hold when excluded from power, and what survives when the record chooses what to remember and what to leave behind.
                 </p>
-                <a href="#" class="amazon-btn" style="background-color: #888888; cursor: default;">Coming Soon to Amazon KDP</a>
-            </div>
 
-            <h4 class="synopsis-title">Manuscript Preview: Chapter I</h4>
-            
-            <div class="excerpt-window">
-                <p>The rain over the city didn’t clear the air; it only dragged the smoke lower, pinning it against the wet asphalt of the narrow alleyways.</p>
-                <p>Inside the office, the overhead light hummed a flat, metallic note. I watched the cigarette smoke drift lazily across the desk, moving like a slow fog rolling into a harbor. It was always the small things that stayed in place while everything else tore apart at the seams. The wooden table between us was solid, heavy, marked with deep rings from old cups and older arguments.</p>
-                <p>She hadn't spoken for three minutes. She didn't look at me; her eyes remained focused entirely on the shattered porcelain piece sitting in the palm of her hand. It was a fragment of a design that didn’t belong to this city, a piece of a history carved out somewhere far away and carried across coastlines in an old leather trunk. "They think it's gone," she said finally, her voice barely rising over the low hum of the street below. "But secrets don't vanish. They just get built over."</p>
-                <p>I leaned back in the chair, letting the shadow of the window frame cut diagonally across the paperwork. Outside, the neon lights flashed an artificial, hollow blue against the glass...</p>
+                <div class="link-group">
+                    <a href="https://us.amazon.com/dp/B0HLGPN6BG?ref_=cm_sw_r_ffobk_cp_ud_dp_DK3G0916PQV817HG6EHS&bestFormat=true" class="btn-link" target="_blank">View on Amazon KDP</a>
+                
+                </div>
             </div>
         </div>
-
     </section>
-
 </body>
 </html>

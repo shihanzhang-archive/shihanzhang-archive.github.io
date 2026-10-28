@@ -3,172 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recognitions & Awards | Shihan Corrine Zhang</title>
+    <title>Recognitions & Honors | Shihan Corrine Zhang</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Matrix Grid Layouts */
-        .scope-container {
-            max-width: 950px;
-            margin: 0 auto 5rem auto;
+        .recognitions-wrapper {
+            max-width: 1000px;
+            margin: 2rem auto 5rem auto;
+            padding: 0 1.5rem;
         }
 
-        .scope-heading {
+        .section-heading {
             font-family: Georgia, serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #111111;
-            font-weight: 400;
-            border-bottom: 1px solid #111111;
-            padding-bottom: 0.5rem;
             margin-bottom: 2rem;
-            text-transform: capitalize;
-            letter-spacing: 0.02em;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 0.5rem;
         }
 
-        .certificate-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+        .recognition-category-title {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            color: #111111;
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #d0d0d0;
+            padding-bottom: 0.4rem;
         }
 
-        /* Certificate Visual Proof Cards */
-        .award-card {
-            position: relative;
+        .recognition-card {
             background-color: #ffffff;
             border: 1px solid #eaeaea;
-            border-radius: 2px;
-            overflow: hidden;
-            aspect-ratio: 4 / 3; /* Matches standard landscape certificate geometry */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
-            text-decoration: none;
-            display: block;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.02);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .award-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+        .recognition-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
         }
 
-        /* Certificate Image Behind Overlay */
-        .certificate-preview-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: contrast(0.95) brightness(0.98);
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-
-        .award-card:hover .certificate-preview-img {
-            transform: scale(1.03);
-            filter: contrast(1) brightness(0.7); /* Darkens slightly on hover to keep text readable */
-        }
-
-        /* Permanent Content Badge Header */
-        .award-badge-bar {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            z-index: 10;
+        .card-header {
             display: flex;
-            gap: 0.4rem;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.75rem;
         }
 
-        .domain-tag {
-            font-size: 0.68rem;
+        .card-title {
+            font-family: Georgia, serif;
+            font-size: 1.3rem;
+            color: #111111;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .grade-badges {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .grade-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background-color: #111111;
+            color: #ffffff;
+            padding: 0.2rem 0.55rem;
+            border-radius: 2px;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            padding: 0.25rem 0.6rem;
-            border-radius: 1px;
+            color: #777777;
+            margin-bottom: 1rem;
             font-weight: 600;
-            color: #ffffff;
         }
 
-        /* Dynamic Domain Color Mappings */
-        .tag-research { background-color: #222222; }
-        .tag-academic { background-color: #444444; }
-        .tag-art      { background-color: #777777; }
+        .card-description {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #333333;
+            margin-bottom: 1.25rem;
+        }
 
-        /* Elegant Hover Information Shield */
-        .award-card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        /* Single-Row Horizontal Scrollable Gallery */
+        .horizontal-gallery-container {
             width: 100%;
-            background: linear-gradient(transparent, rgba(17, 17, 17, 0.95) 40%);
-            padding: 3rem 1.25rem 1.25rem 1.25rem;
-            color: #ffffff;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #e0e0e0;
+        }
+
+        .horizontal-gallery-track {
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            transform: translateY(15px);
-            opacity: 0;
-            transition: transform 0.25s ease, opacity 0.25s ease;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 0.75rem;
+            scrollbar-width: thin;
+            scrollbar-color: #888888 #f1f1f1;
         }
 
-        .award-card:hover .award-card-overlay {
-            transform: translateY(0);
-            opacity: 1;
+        .horizontal-gallery-track::-webkit-scrollbar {
+            height: 6px;
         }
 
-        .award-title {
-            font-family: Georgia, serif;
-            font-size: 1.15rem;
-            line-height: 1.3;
-            margin-bottom: 0.25rem;
-            font-weight: 400;
+        .horizontal-gallery-track::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
 
-        .award-issuer {
-            font-size: 0.8rem;
-            color: #cccccc;
-            letter-spacing: 0.02em;
+        .horizontal-gallery-track::-webkit-scrollbar-thumb {
+            background: #888888;
+            border-radius: 3px;
         }
 
-        /* --- Pure CSS Lightbox Configuration --- */
-        .award-lightbox {
-            display: none;
-            position: fixed;
-            z-index: 20000;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(17, 17, 17, 0.97);
+        .gallery-item-card {
+            flex: 0 0 auto;
+            display: flex;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
+            background: #fafafa;
+            border: 1px solid #eaeaea;
+            padding: 0.35rem;
         }
 
-        .award-lightbox:target {
-            display: flex;
-        }
-
-        .lightbox-close-btn {
-            position: absolute;
-            top: 2rem;
-            right: 2.5rem;
-            color: #ffffff;
-            font-size: 2.5rem;
-            text-decoration: none;
-            font-weight: 200;
-        }
-
-        .lightbox-panel img {
-            max-width: 90vw;
-            max-height: 85vh;
-            border: 1px solid #222222;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+        .gallery-item-card img {
+            height: 170px; /* Fixed height preserves full aspect ratio without cropping */
+            width: auto;
+            max-width: 340px;
+            object-fit: contain;
+            display: block;
+            background-color: #f0f0f0;
         }
 
         @media (max-width: 768px) {
-            .certificate-grid { grid-template-columns: 1fr; }
-            .award-card-overlay { opacity: 1; transform: translateY(0); background: rgba(17, 17, 17, 0.75); padding: 1.25rem; }
-            .award-card:hover .certificate-preview-img { filter: contrast(1) brightness(0.6); }
+            .recognition-card { padding: 1.25rem; }
+            .gallery-item-card img { height: 140px; }
         }
     </style>
 </head>
 <body>
-
     <section class="hero-section" style="min-height: auto; padding-bottom: 2rem;">
         <nav>
             <h1 class="site-title"><a href="index.html" style="color: white; text-decoration: none;">Shihan "Corrine" Zhang</a></h1>
@@ -177,86 +157,243 @@
                 <a href="research.html">Research</a>
                 <a href="film-writing.html">Film & Writing</a>
                 <a href="praxis.html">PRAXIS</a>
-                <a href="forums.html">Forums</a>
-                <a href="recognitions.html">Recognitions</a>
+                <a href="ecotrace.html">EcoTrace</a>
+                <a href="recognitions.html" class="active">Recognitions</a>
             </div>
         </nav>
     </section>
 
-    <section class="content-section" style="padding-top: 2rem;">
-        <h2 class="section-label" style="max-width: 950px; margin: 0 auto 3rem auto;">Selected Honors & Certifications</h2>
+    <div class="recognitions-wrapper">
+        <h2 class="section-heading">Recognitions & Honors</h2>
 
-        <div class="scope-container">
-            <h3 class="scope-heading">International Scope</h3>
-            <div class="certificate-grid">
+        <!-- INTERNATIONAL & NATIONAL AWARDS -->
+        <h3 class="recognition-category-title">International & National Honors</h3>
 
-                <a href="#cert-intl-1" class="award-card">
-                    <div class="award-badge-bar">
-                        <span class="domain-tag tag-research">Research</span>
-                    </div>
-                    <img src="images/cert-intl-research.jpg" alt="Certificate Preview" class="certificate-preview-img">
-                    <div class="award-card-overlay">
-                        <h4 class="award-title">Global Youth Delegation Distinction</h4>
-                        <p class="award-issuer">UN Organizing Frameworks // 2026</p>
-                    </div>
-                </a>
-
-                <a href="#cert-intl-2" class="award-card">
-                    <div class="award-badge-bar">
-                        <span class="domain-tag tag-art">Art</span>
-                    </div>
-                    <img src="images/cert-intl-art.jpg" alt="Certificate Preview" class="certificate-preview-img">
-                    <div class="award-card-overlay">
-                        <h4 class="award-title">International Curatorial Selection</h4>
-                        <p class="award-issuer">Global Contemporary Arts Foundation // 2025</p>
-                    </div>
-                </a>
-
+        <!-- 1. Genius Olympiad -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">Silver Medal (Science) & Global Finalist (Art), Genius Olympiad</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G10</span>
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">International Round | Team China Selection</div>
+            <p class="card-description">
+                Awarded to the top 5–15% of 300 international finalist science projects and art entries. Represented Team China in the International Round after earning Highest Distinction in the Regional Round. Developed a pentagonal solar air collector utilizing SolidWorks 3D modeling and MATLAB simulations, achieving a verified 13% reduction in household heating costs.
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/GO1.PNG" alt="Genius Olympiad 1"></div>
+                    <div class="gallery-item-card"><img src="images/GO2.JPG" alt="Genius Olympiad 2"></div>
+                    <div class="gallery-item-card"><img src="images/GO3.JPG" alt="Genius Olympiad 3"></div>
+                    <div class="gallery-item-card"><img src="images/GO4.JPG" alt="Genius Olympiad 4"></div>
+                    <div class="gallery-item-card"><img src="images/GO_art.jpg" alt="Genius Olympiad Art Entry"></div>
+                </div>
             </div>
         </div>
 
-        <div class="scope-container">
-            <h3 class="scope-heading">State Scope</h3>
-            <div class="certificate-grid">
-
-                <a href="#cert-state-1" class="award-card">
-                    <div class="award-badge-bar">
-                        <span class="domain-tag tag-academic">Academic</span>
-                    </div>
-                    <img src="images/cert-state-acad.jpg" alt="Certificate Preview" class="certificate-preview-img">
-                    <div class="award-card-overlay">
-                        <h4 class="award-title">Statewide Scholars Laureate</h4>
-                        <p class="award-issuer">Department of Secondary Education // 2025</p>
-                    </div>
-                </a>
-
+        <!-- 2. Envirothon -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">Global Top 50, Envirothon</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G9</span>
+                    <span class="grade-badge">G10</span>
+                </div>
+            </div>
+            <div class="card-meta">International Competition | Team China</div>
+            <p class="card-description">
+                Placed in the Global Top 50 out of 500,000 participating students from 4,000 schools worldwide. Earned Highest Distinction in the Envirothon X Aptitude Assessment (Top 10%) and placed in the Asia Top 5 Teams to represent Team China in the Global Round, formulating field research solutions for sustainable agricultural water management and soil infrastructure.
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/Envirothon1.jpg" alt="Envirothon 1"></div>
+                    <div class="gallery-item-card"><img src="images/Envirothon2.JPG" alt="Envirothon 2"></div>
+                    <div class="gallery-item-card"><img src="images/Envirothon3.jpg" alt="Envirothon 3"></div>
+                </div>
             </div>
         </div>
 
-        <div class="scope-container">
-            <h3 class="scope-heading">Regional & Institutional Scope</h3>
-            <div class="certificate-grid">
-
-                <a href="#cert-school-1" class="award-card">
-                    <div class="award-badge-bar">
-                        <span class="domain-tag tag-research">Research</span>
-                    </div>
-                    <img src="images/cert-school-res.jpg" alt="Certificate Preview" class="certificate-preview-img">
-                    <div class="award-card-overlay">
-                        <h4 class="award-title">First Place: Engineering & Design Fair</h4>
-                        <p class="award-issuer">Institutional Research Council // 2026</p>
-                    </div>
-                </a>
-
+        <!-- 3. Junior Science Olympiad of Canada -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">Global Silver, Junior Science Olympiad of Canada (Stage 2)</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">International Examination</div>
+            <p class="card-description">
+                Scored in the top 15% out of 5,000 Stage 2 qualifiers (selected from 10,000 global Stage 1 participants) on an advanced exam covering Canadian curriculum topics in thermodynamics, biology, environmental science, and scientific data analysis.
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/JSOC.JPG" alt="JSOC Award"></div>
+                </div>
             </div>
         </div>
 
-    </section>
+        <!-- 4. International Chemistry Quiz -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">High Distinction, International Chemistry Quiz</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G10</span>
+                </div>
+            </div>
+            <div class="card-meta">Royal Australian Chemical Institute</div>
+            <p class="card-description">
+                Scored in the top 10% among 1,000 Grade 10 participants in the Intermediate Level Quiz organized by the Royal Australian Chemical Institute, demonstrating problem-solving expertise in kinematics, thermodynamics, and organic chemistry.
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/ICQ.JPG" alt="ICQ Award"></div>
+                </div>
+            </div>
+        </div>
 
-    <div id="cert-intl-1" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-intl-research.jpg" alt="Enlarged Certificate"></div></div>
-    <div id="cert-intl-2" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-intl-art.jpg" alt="Enlarged Certificate"></div></div>
-    <div id="cert-state-1" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-state-acad.jpg" alt="Enlarged Certificate"></div></div>
-    <div id="cert-school-1" class="award-lightbox"><a href="#" class="lightbox-close-btn">&times;</a><div class="lightbox-panel"><img src="images/cert-school-res.jpg" alt="Enlarged Certificate"></div></div>
+        <!-- 5. CelebratingArt.com -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">Selected Artist, CelebratingArt.com</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G9</span>
+                </div>
+            </div>
+            <div class="card-meta">International Art Publication</div>
+            <p class="card-description">
+                Selected for publication in the international art anthology out of thousands of global K–12 entries, with only 25% of submissions accepted based on judicial review of technical skill and personal voice for the mixed-media piece titled "Parachute Jump."
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/CA.JPG" alt="CelebratingArt Selection"></div>
+                </div>
+            </div>
+        </div>
 
+        <!-- 6. China Thinks Big (CTB) -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">National High Distinction & Global Round Qualifier, China Thinks Big</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">National Research Competition</div>
+            <p class="card-description">
+                Competed as a solo participant among 1,500 teams and 10,000 students from 500+ high schools. Submitted a research paper on solar thermal air collection systems optimized with MATLAB, advancing through the National Round (Top 40%) to qualify for the Global Round (Top 10%).
+            </p>
+        </div>
+
+
+        <!-- STATE & REGIONAL HONORS -->
+        <h3 class="recognition-category-title">State & Regional Honors</h3>
+
+        <!-- 7. Florida 71st SSEF -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">4th Place (Env Eng), US Navy Science Award & NOAA Planet Award, 71st FL SSEF</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">State Science and Engineering Fair of Florida</div>
+            <p class="card-description">
+                Selected from 900+ statewide finalists representing 200,000+ students across Florida's science fair pipeline. Earned 4th Place statewide in Senior Environmental Engineering, along with the US Navy Science Award and NOAA's sole "Taking the Pulse of the Planet" Award (~1/900+ Senior finalists) for the Trigen Rotor hybrid energy harvester.
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/SSEF1.JPEG" alt="SSEF 1"></div>
+                    <div class="gallery-item-card"><img src="images/SSEF2.JPG" alt="SSEF 2"></div>
+                    <div class="gallery-item-card"><img src="images/SSEF3.jpg" alt="SSEF 3"></div>
+                    <div class="gallery-item-card"><img src="images/SSEF4.JPG" alt="SSEF 4"></div>
+                    <div class="gallery-item-card"><img src="images/SSEF5.JPG" alt="SSEF 5"></div>
+                    <div class="gallery-item-card"><img src="images/SSEF6.JPG" alt="SSEF 6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Scholastic Art & Writing Awards -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">Gold Key (Mixed Media) & Silver Key (Digital Art), Scholastic Art Awards</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">State / Regional Competition</div>
+            <p class="card-description">
+                Gold Key awarded to the top 5–7% of regional entries in Mixed Media for exceptional originality and technical execution, automatically advancing to national judging. Silver Key awarded in Digital Art for digital mythology book cover illustration.
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/Goldkey.png" alt="Gold Key Award"></div>
+                    <div class="gallery-item-card"><img src="images/Silverkey.png" alt="Silver Key Award"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Plantation City Art Search -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">"Most Promising" Award & 1st Prize, Plantation City Art Search</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">City / Regional District Honor</div>
+            <p class="card-description">
+                Awarded 1st Prize for the best 11th-grade artwork across 60 schools in the Plantation City school district, and selected for the "Most Promising" Award recognizing the single best artwork among all preK–12 submissions district-wide.
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/ArtSearch.JPG" alt="ArtSearch Award"></div>
+                    <div class="gallery-item-card"><img src="images/parachute.PNG" alt="Parachute Jump Piece"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. UF Symposium -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">Selected Competitive Speaker, University of Florida Symposium</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">State Science Symposium</div>
+            <p class="card-description">
+                Selected as one of the top 6 projects in the Environmental Category out of 300 state submissions to present personal engineering research on the Trigen Rotor harvester to an audience of 100 researchers and UF PhD panelists.
+            </p>
+        </div>
+
+
+        <!-- ACADEMIC & INSTITUTIONAL DISTINCTIONS -->
+        <h3 class="recognition-category-title">Academic & Institutional Distinctions</h3>
+
+        <!-- 11. School Honors -->
+        <div class="recognition-card">
+            <div class="card-header">
+                <h4 class="card-title">Academic Excellence & School Distinctions</h4>
+                <div class="grade-badges">
+                    <span class="grade-badge">G9</span>
+                    <span class="grade-badge">G10</span>
+                    <span class="grade-badge">G11</span>
+                </div>
+            </div>
+            <div class="card-meta">American Heritage School & Shanghai Starriver Bilingual School</div>
+            <p class="card-description">
+                Earned Principal Honor Roll (Q1 & Q2) at American Heritage School for maintaining straight A's while balancing 6 AP courses and research; Distinction in Leadership at Shanghai Starriver Bilingual School (top 10 selected out of 100 applicants); School Academic Excellence (Top 10 GPA ranking); and AP Scholar with Distinction (5s across 8 AP exams).
+            </p>
+            <div class="horizontal-gallery-container">
+                <div class="horizontal-gallery-track">
+                    <div class="gallery-item-card"><img src="images/School1.JPG" alt="American Heritage Certificate"></div>
+                    <div class="gallery-item-card"><img src="images/School2.JPG" alt="Starriver Leadership Certificate"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>

@@ -6,208 +6,540 @@
     <title>PRAXIS Timeline | Shihan Corrine Zhang</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Timeline Interface Grid Base */
-        .timeline-container {
-            max-width: 950px;
-            margin: 4rem auto;
+        /* Timeline Interface Core */
+        .timeline-wrapper {
+            max-width: 1000px;
+            margin: 2rem auto 5rem auto;
             position: relative;
+            padding: 0 1.5rem;
         }
 
-        /* The Horizontal Year Ruler */
-        .timeline-ruler {
+        /* Grade Ruler Axis Header */
+        .timeline-ruler-header {
             display: grid;
-            grid-template-columns: 120px repeat(4, 1fr); /* Column 1 for spacing, others for years */
+            grid-template-columns: 240px repeat(4, 1fr);
             border-bottom: 2px solid #111111;
-            padding-bottom: 0.75rem;
-            margin-bottom: 2rem;
-            text-align: center;
+            padding-bottom: 0.85rem;
+            margin-bottom: 2.5rem;
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 10;
         }
 
-        .ruler-year {
+        .ruler-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: #666666;
+            text-transform: uppercase;
+        }
+
+        .ruler-grade-col {
+            text-align: center;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.1em;
             color: #111111;
             text-transform: uppercase;
         }
 
-        /* Timeline Activity Bars Frame */
+        /* Central Timeline Track Line */
         .timeline-stream {
+            position: relative;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 3rem;
         }
 
-        /* Full Clickable Timeline Track Block */
-        .timeline-track-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: transform 0.2s ease;
+        .timeline-stream::before {
+            content: '';
+            position: absolute;
+            left: 235px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+            z-index: 1;
         }
 
-        .timeline-track-link:hover {
-            transform: translateX(4px);
-        }
-
-        .timeline-row {
-            display: grid;
-            grid-template-columns: 120px repeat(4, 1fr);
-            align-items: center;
-        }
-
-        /* Label details fixed to the far left side */
-        .activity-meta-label {
-            padding-right: 1.5rem;
-        }
-
-        .activity-meta-label h4 {
-            font-family: Georgia, serif;
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: #111111;
-            margin-bottom: 0.25rem;
-            line-height: 1.2;
-        }
-
-        .activity-meta-label p {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #888888;
-        }
-
-        /* The Graphical Duration Bar Block */
-        .duration-bar-block {
+        .timeline-item {
+            position: relative;
             background-color: #ffffff;
             border: 1px solid #eaeaea;
-            padding: 1rem 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+            z-index: 2;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+
+        /* Timeline Connection Node */
+        .timeline-node {
+            position: absolute;
+            left: -28px;
+            top: 2.2rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #111111;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 2px #111111;
+        }
+
+        .activity-header {
             display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
-            border-left: 4px solid #111111; /* Accents the active edge */
-            height: 90px;
-            transition: border-color 0.2s, background-color 0.2s;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 0.85rem;
+            margin-bottom: 0.75rem;
         }
 
-        .timeline-track-link:hover .duration-bar-block {
-            background-color: #fcfcfc;
-            border-color: #555555;
-        }
-
-        /* Little Mini-Thumbnail Image wrapper inside the bar tracking */
-        .bar-thumbnail-wrapper {
-            width: 70px;
-            height: 55px;
-            background-color: #f0f0f0;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 1px solid #eaeaea;
-        }
-
-        .bar-thumbnail-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .bar-text-summary {
-            overflow: hidden;
-        }
-
-        .bar-text-summary h5 {
-            font-size: 0.95rem;
+        .activity-title {
+            font-family: Georgia, serif;
+            font-size: 1.4rem;
             color: #111111;
-            margin-bottom: 0.15rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .grade-badges {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .grade-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background-color: #111111;
+            color: #ffffff;
+            padding: 0.2rem 0.55rem;
+            border-radius: 2px;
+        }
+
+        .activity-meta {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #777777;
+            margin-bottom: 1rem;
             font-weight: 600;
         }
 
-        .bar-text-summary p {
-            font-size: 0.85rem;
-            color: #666666;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis; /* Keeps long sentences clean with an ellipsis */
+        .activity-description {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #333333;
+            margin-bottom: 1.5rem;
         }
 
-        /* --- Dynamic Span Grid Positioning Maps (2023-2026 Grid Control) --- */
-        /* Span from 2023 to 2024 */
-        .span-2023-2024 { grid-column: 2 / span 1; }
-        
-        /* Span from 2023 all the way through 2025 */
-        .span-2023-2025 { grid-column: 2 / span 2; }
+        /* Single-Row Horizontal Scrollable Gallery */
+        .horizontal-gallery-container {
+            width: 100%;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #e0e0e0;
+        }
 
-        /* Span across all years (2023 to 2026+) */
-        .span-2023-2026 { grid-column: 2 / span 4; }
+        .horizontal-gallery-track {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 0.75rem;
+            scrollbar-width: thin;
+            scrollbar-color: #888888 #f1f1f1;
+        }
 
-        /* Span from 2024 through 2025 */
-        .span-2024-2025 { grid-column: 3 / span 1; }
+        .horizontal-gallery-track::-webkit-scrollbar {
+            height: 6px;
+        }
 
-        /* Span from 2025 to 2026 */
-        .span-2025-2026 { grid-column: 4 / span 2; }
+        .horizontal-gallery-track::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
 
+        .horizontal-gallery-track::-webkit-scrollbar-thumb {
+            background: #888888;
+            border-radius: 3px;
+        }
 
-        @media (max-width: 800px) {
-            .timeline-ruler { display: none; } /* Drop complex layout mapping on mobile interfaces */
-            .timeline-row { display: flex; flex-direction: column; align-items: stretch; gap: 0.5rem; }
-            .activity-meta-label { padding-right: 0; margin-bottom: 0.25rem; }
-            .duration-bar-block { height: auto; }
+        .gallery-item-card {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fafafa;
+            border: 1px solid #eaeaea;
+            padding: 0.35rem;
+        }
+
+        .gallery-item-card img {
+            height: 170px; /* Fixed height preserves full aspect ratio without cropping */
+            width: auto;
+            max-width: 340px;
+            object-fit: contain;
+            display: block;
+            background-color: #f0f0f0;
+        }
+
+        .section-heading {
+            font-family: Georgia, serif;
+            font-size: 2rem;
+            color: #111111;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 0.5rem;
+        }
+
+        @media (max-width: 820px) {
+            .timeline-ruler-header { display: none; }
+            .timeline-stream::before { display: none; }
+            .timeline-node { display: none; }
+            .timeline-item { padding: 1.25rem; }
+            .gallery-item-card img { height: 140px; }
         }
     </style>
 </head>
 <body>
-
-    <section class="hero-section" style="min-height: auto; padding-bottom: 3rem;">
+    <section class="hero-section" style="min-height: auto; padding-bottom: 2rem;">
         <nav>
             <h1 class="site-title"><a href="index.html" style="color: white; text-decoration: none;">Shihan "Corrine" Zhang</a></h1>
             <div class="nav-links">
                 <a href="gallery.html">The Gallery</a>
                 <a href="research.html">Research</a>
                 <a href="film-writing.html">Film & Writing</a>
-                <a href="praxis.html">PRAXIS</a>
-                <a href="forums.html">Forums</a>
+                <a href="praxis.html" class="active">PRAXIS</a>
+                <a href="ecotrace.html">EcoTrace</a>
                 <a href="recognitions.html">Recognitions</a>
             </div>
         </nav>
     </section>
 
-    <section class="content-section">
-        <h2 class="section-label" style="max-width: 950px; margin: 0 auto 3rem auto;">PRAXIS // Activity Span Mapping</h2>
+    <div class="timeline-wrapper">
+        <h2 class="section-heading">Activities</h2>
 
-        <div class="timeline-container">
-            
-            <div class="timeline-ruler">
-                <div></div> <div class="ruler-year">2023</div>
-                <div class="ruler-year">2024</div>
-                <div class="ruler-year">2025</div>
-                <div class="ruler-year">2026</div>
+        <!-- Interactive Ruler Header -->
+        <div class="timeline-ruler-header">
+            <div class="ruler-title">Activity & Domain</div>
+            <div class="ruler-grade-col">Grade 9</div>
+            <div class="ruler-grade-col">Grade 10</div>
+            <div class="ruler-grade-col">Grade 11</div>
+            <div class="ruler-grade-col">Grade 12</div>
+        </div>
+
+        <div class="timeline-stream">
+
+            <!-- 1. Hybrid Generator Project (TENG) -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Inventor, HybridGen</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G11</span>
+                        <span class="grade-badge">G12</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Plantation, FL & Fujian, China</div>
+                <p class="activity-description">
+                    Explored solar, wind, and raindrop energy harvesting before optimizing the system into a TENG-electromagnetic hybrid generator for enhanced efficiency. Field-tested the system for one year across rural homes, farmland, and a primary school in Fujian, China to supplement local electricity and power environmental monitoring sensors, delivering ¥220–350 in economic savings and State Grid energy sales while publishing peer-reviewed, SCI-indexed research in <em>Micromachines</em>.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/TENG1.JPG" alt="TENG 1"></div>
+                        <div class="gallery-item-card"><img src="images/TENG2.JPG" alt="TENG 2"></div>
+                        <div class="gallery-item-card"><img src="images/VillageP1.JPG" alt="Village Certificate 1"></div>
+                        <div class="gallery-item-card"><img src="images/VillageP2.jpg" alt="Village Certificate 2"></div>
+                        <div class="gallery-item-card"><img src="images/SSEF1.JPEG" alt="SSEF Exhibit 1"></div>
+                        <div class="gallery-item-card"><img src="images/SSEF6.JPG" alt="SSEF Exhibit 6"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="timeline-stream">
-
-                <a href="activity-detail-placeholder.html" class="timeline-track-link">
-                    <div class="timeline-row">
-                        <div class="activity-meta-label">
-                            <h4>Solar Lab</h4>
-                            <p>Lead Builder</p>
-                        </div>
-                        <div class="duration-bar-block span-2023-2025">
-                            <div class="bar-thumbnail-wrapper">
-                                <img src="images/beehive.jpg" alt="Solar Lab Thumbnail Preview">
-                            </div>
-                            <div class="bar-text-summary">
-                                <h5>Atmospheric Collector Modeling</h5>
-                                <p>Standardizing structural grid layouts and assembling hardware performance modules across active cycles.</p>
-                            </div>
-                        </div>
+            <!-- 2. Pentagonal Solar Air Collector -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Inventor, Pentagonal Solar Air Collector</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G10</span>
+                        <span class="grade-badge">G11</span>
                     </div>
-                </a>
+                </div>
+                <div class="activity-meta">Shanghai & Fujian, China</div>
+                <p class="activity-description">
+                    Designed and fabricated a pentagonal solar air collector utilizing foam copper-enhanced phase-change materials to absorb, store, and release thermal energy as a supplement to household heating. Field-tested continuously for two years across 17 Hakka homes and a primary school in Fujian, China, achieving certified total savings of ¥1,000 in heating costs, receiving professor feedback from Shanghai Jiao Tong University and Tongji University, and presenting findings at the 9th International Conference on Environmental Science and Civil Engineering.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/SA1.JPG" alt="Solar Air Collector 1"></div>
+                        <div class="gallery-item-card"><img src="images/SA2.JPG" alt="Solar Air Collector 2"></div>
+                        <div class="gallery-item-card"><img src="images/SA3.JPG" alt="Solar Air Collector 3"></div>
+                        <div class="gallery-item-card"><img src="images/SA4.JPG" alt="Solar Air Collector 4"></div>
+                        <div class="gallery-item-card"><img src="images/SA_acceptance.png" alt="ICESEC Acceptance"></div>
+                        <div class="gallery-item-card"><img src="images/GO3.JPG" alt="Genius Olympiad GO3"></div>
+                        <div class="gallery-item-card"><img src="images/VillageP1.JPG" alt="Village Certificate 1"></div>
+                        <div class="gallery-item-card"><img src="images/VillageP2.jpg" alt="Village Certificate 2"></div>
+                    </div>
+                </div>
+            </div>
 
-                <a href="activity-detail-placeholder.html" class="timeline-track-link">
-                    <div class="timeline-row">
-                        <div class="activity-meta-label">
-                            <h4>Eco Mapping</h4>
-                            <p>Researcher</p>
-                        </div>
-                        <div class="duration-bar-block span-2024-2025">
+            <!-- 3. EcoTrace Carbon Tracking Platform -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Initiator / Developer, EcoTrace</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G9</span>
+                        <span class="grade-badge">G10</span>
+                        <span class="grade-badge">G11</span>
+                        <span class="grade-badge">G12</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Shanghai Xinzhuang Industrial Park, China & Fort Lauderdale, FL</div>
+                <p class="activity-description">
+                    Developed a bilingual carbon-tracking and incentive platform using Python and Figma to promote sustainable daily choices. Redesigned the interface based on user feedback and partnered with five local businesses to offer tangible rewards through a points system, expanding the network across four schools and four clubs to engage over 300 users and record a 500 kg reduction in carbon emissions over two years.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/EE1.JPG" alt="EE1"></div>
+                        <div class="gallery-item-card"><img src="images/EE2.JPG" alt="EE2"></div>
+                        <div class="gallery-item-card"><img src="images/EE3.JPG" alt="EE3"></div>
+                        <div class="gallery-item-card"><img src="images/EE4.JPG" alt="EE4"></div>
+                        <div class="gallery-item-card"><img src="images/EE5.JPG" alt="EE5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. SSBS Student Body Association - Head of Publicity -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Designer, Head of Publicity, SSBS Student Body Association</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G9</span>
+                        <span class="grade-badge">G10</span>
+                        <span class="grade-badge">G11</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Shanghai Starriver Bilingual School</div>
+                <p class="activity-description">
+                    Led publicity operations and designed merchandise distributed to the entire school body of 1,500 students at Shanghai Starriver Bilingual School. Hosted campus design events, created 17 sketches incorporated into the official 2024 graduation canvas tote bag, produced 60 souvenir postcards showcasing artwork from "Living Landscapes," and designed over 50 event posters across student departments.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/PD1.JPG" alt="PD1"></div>
+                        <div class="gallery-item-card"><img src="images/PD2.JPG" alt="PD2"></div>
+                        <div class="gallery-item-card"><img src="images/PD3.JPG" alt="PD3"></div>
+                        <div class="gallery-item-card"><img src="images/PD4.JPG" alt="PD4"></div>
+                        <div class="gallery-item-card"><img src="images/PD5.jpg" alt="PD5"></div>
+                        <div class="gallery-item-card"><img src="images/poster1.PNG" alt="Poster 1"></div>
+                        <div class="gallery-item-card"><img src="images/poster2.PNG" alt="Poster 2"></div>
+                        <div class="gallery-item-card"><img src="images/poster3.JPG" alt="Poster 3"></div>
+                        <div class="gallery-item-card"><img src="images/poster4.PNG" alt="Poster 4"></div>
+                        <div class="gallery-item-card"><img src="images/poster5.JPG" alt="Poster 5"></div>
+                        <div class="gallery-item-card"><img src="images/poster6.PNG" alt="Poster 6"></div>
+                        <div class="gallery-item-card"><img src="images/poster7.PNG" alt="Poster 7"></div>
+                        <div class="gallery-item-card"><img src="images/poster8.PNG" alt="Poster 8"></div>
+                        <div class="gallery-item-card"><img src="images/poster9.PNG" alt="Poster 9"></div>
+                        <div class="gallery-item-card"><img src="images/poster10.PNG" alt="Poster 10"></div>
+                        <div class="gallery-item-card"><img src="images/poster11.PNG" alt="Poster 11"></div>
+                        <div class="gallery-item-card"><img src="images/poster12.PNG" alt="Poster 12"></div>
+                        <div class="gallery-item-card"><img src="images/poster13.PNG" alt="Poster 13"></div>
+                        <div class="gallery-item-card"><img src="images/poster14.PNG" alt="Poster 14"></div>
+                        <div class="gallery-item-card"><img src="images/stamp1.JPG" alt="Stamp 1"></div>
+                        <div class="gallery-item-card"><img src="images/stamp2.JPG" alt="Stamp 2"></div>
+                        <div class="gallery-item-card"><img src="images/stamp3.TIF" alt="Stamp 3"></div>
+                        <div class="gallery-item-card"><img src="images/stamp4.TIF" alt="Stamp 4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. UF SSTP Biosolids Remediation Research -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Research Intern, Lin Lab (UF/IFAS) - UF SSTP</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G12</span>
+                    </div>
+                </div>
+                <div class="activity-meta">University of Florida</div>
+                <p class="activity-description">
+                    Conducted seven weeks of intensive environmental chemistry research at the University of Florida, evaluating soil amendments including biochar and water treatment residuals to prevent phosphorus leaching in legacy-impacted Spodosols. Practiced laboratory sample analysis to evaluate scalable nutrient remediation strategies, achieved top marks (A's) across interdisciplinary UF Honors coursework, and presented a formal research paper and oral defense.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/SSTP1.JPG" alt="SSTP Lab 1"></div>
+                        <div class="gallery-item-card"><img src="images/SSTP2.JPG" alt="SSTP Lab 2"></div>
+                        <div class="gallery-item-card"><img src="images/SSTP4.JPG" alt="SSTP Lab 4"></div>
+                        <div class="gallery-item-card"><img src="images/SSTP5.JPG" alt="SSTP Lab 5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Living Landscapes Exhibitions -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Founder, Curator & Collaborating Artist "Living Landscapes: Beyond Nature"</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G10</span>
+                        <span class="grade-badge">G11</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Shanghai & Florida</div>
+                <p class="activity-description">
+                    Founded and curated a two-month art exhibition examining human-environment relationships and women's experiences, selecting 50 student artworks from 200 submissions, securing sponsorship, and hosting over 1,000 visitors. Extended this curatorial initiative through the TATATA feminist exhibition across seven schools and three cities, contributing four original artworks exploring Hakka identity and universal gender roles.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/LL1.jpg" alt="LL1"></div>
+                        <div class="gallery-item-card"><img src="images/LL2.JPG" alt="LL2"></div>
+                        <div class="gallery-item-card"><img src="images/LL3.JPG" alt="LL3"></div>
+                        <div class="gallery-item-card"><img src="images/LL4.JPG" alt="LL4"></div>
+                        <div class="gallery-item-card"><img src="images/LL5.JPG" alt="LL5"></div>
+                        <div class="gallery-item-card"><img src="images/LL6.JPG" alt="LL6"></div>
+                        <div class="gallery-item-card"><img src="images/LL7.JPG" alt="LL7"></div>
+                        <div class="gallery-item-card"><img src="images/LL8.JPG" alt="LL8"></div>
+                        <div class="gallery-item-card"><img src="images/LL9.JPG" alt="LL9"></div>
+                        <div class="gallery-item-card"><img src="images/LL10.JPG" alt="LL10"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. SSBS Energy Club -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Volunteer Audio-Visual Manager, SSBS Energy Club</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G10</span>
+                        <span class="grade-badge">G11</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Shanghai Starriver Bilingual School</div>
+                <p class="activity-description">
+                    Directed technical AV production teams for over ten major campus events, including theatrical productions, concerts, and galas serving audiences of 500 or more. Coordinated seven technical crews using Hirender P1 multimedia software for synchronized audio-visual delivery while training three successors in multi-track audio separation and live transition management.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/EC1.JPG" alt="EC1"></div>
+                        <div class="gallery-item-card"><img src="images/EC2.JPG" alt="EC2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. UN ECOSOC Youth Forum Volunteer -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">United Nations, ECOSOC Youth Forum Volunteer</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G11</span>
+                    </div>
+                </div>
+                <div class="activity-meta">New York, NY</div>
+                <p class="activity-description">
+                    Selected by UN staff to coordinate session workflows and delegate logistics for more than 1,500 international participants at the UN Headquarters. Managed proposal intakes from youth representatives to present to attending UN officials, while overseeing floor operations and crowd management in a multilingual setting.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/UN1.JPG" alt="UN1"></div>
+                        <div class="gallery-item-card"><img src="images/UN2.JPG" alt="UN2"></div>
+                        <div class="gallery-item-card"><img src="images/UN3.JPG" alt="UN3"></div>
+                        <div class="gallery-item-card"><img src="images/UN4.png" alt="UN4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Florida Grand Opera -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Featured Artist, Florida Grand Opera</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G11</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Miami & Fort Lauderdale, FL</div>
+                <p class="activity-description">
+                    Selected as one of four high school artists to exhibit original artwork inspired by Puccini's <em>Turandot</em> for the Florida Grand Opera, exploring artistic themes of authority, voice, and power dynamics.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/FGO.JPG" alt="FGO"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Brown Environmental Leadership Lab (BELL) -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">BELL Marine Coastal Resilience</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G10</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Brown University</div>
+                <p class="activity-description">
+                    Participated in the Brown Environmental Leadership Lab, studying coastal ecology, mangrove restoration, and alkaline soil agroforestry under Dr. Sarah Lummis. Formulated a capstone project proposing the upcycling of microplastic waste into community art installations for charitable fundraising.
+                </p>
+                
+                <div class="horizontal-gallery-container">
+                    <div class="horizontal-gallery-track">
+                        <div class="gallery-item-card"><img src="images/bell1.jpg" alt="BELL1"></div>
+                        <div class="gallery-item-card"><img src="images/bell2.PNG" alt="BELL2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. AERA Guest Speaker -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Guest Speaker, American Educational Research Association</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G11</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Denver, CO</div>
+                <p class="activity-description">
+                    Invited as one of only two high school presenters among 15,000 attendees at the AERA conference after co-authoring research on AI-assisted environmental protection intentions. Delivered a presentation to 300 educators and researchers detailing digital literacy, moral factors, and student-led ecological technology.
+                </p>
+            </div>
+
+            <!-- 12. Stanford e-China -->
+            <div class="timeline-item">
+                <div class="timeline-node"></div>
+                <div class="activity-header">
+                    <h3 class="activity-title">Stanford e-China</h3>
+                    <div class="grade-badges">
+                        <span class="grade-badge">G9</span>
+                    </div>
+                </div>
+                <div class="activity-meta">Stanford University</div>
+                <p class="activity-description">
+                    Selected as one of fifteen students across China for Stanford University's climate technology program under Carey Moncaster. Studied bilateral environmental policy and sustainable innovation, concluding with a research presentation on sea-level rise and saltwater intrusion in agricultural regions.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
